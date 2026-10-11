@@ -1,0 +1,538 @@
+/* IdiotPhone 98 Custom Mobile & Kiosk Styles */
+html, body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: fixed;
+  background-color: #008080;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system, "Segoe UI", "MS Sans Serif", Tahoma, sans-serif;
+}
+
+#desktop {
+  width: 100%;
+  height: calc(100% - 32px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+/* Wallpaper Variants */
+body.theme-teal, .theme-teal { background-color: #008080; }
+body.theme-navy, .theme-navy { background-color: #000080; }
+body.theme-gray, .theme-gray { background-color: #555555; }
+body.theme-black, .theme-black { background-color: #000000; }
+body.theme-matrix, .theme-matrix { background-color: #041004; }
+body.theme-clouds, .theme-clouds {
+  background: #008080 radial-gradient(circle at 50% 30%, #20b2aa 0%, #008080 70%);
+}
+
+/* Desktop Icons Grid */
+.desktop-icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  grid-auto-rows: 84px;
+  padding: 10px;
+  gap: 12px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: auto;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 78px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px dotted transparent;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+.desktop-icon:active, .desktop-icon.selected {
+  border: 1px dotted #ff0;
+}
+
+.desktop-icon img {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 4px;
+  image-rendering: pixelated;
+}
+
+.desktop-icon span {
+  color: #fff;
+  font-size: 11px;
+  line-height: 12px;
+  text-shadow: 1px 1px 1px #000;
+  padding: 1px 3px;
+  word-break: break-word;
+}
+
+.desktop-icon:active span, .desktop-icon.selected span {
+  background-color: #000080;
+}
+
+/* Taskbar */
+#taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  background: #c0c0c0;
+  box-shadow: inset 0 1px #fff, inset 0 2px #dfdfdf;
+  border-top: 1px solid #808080;
+  display: flex;
+  align-items: center;
+  padding: 2px 3px;
+  box-sizing: border-box;
+  z-index: 10000;
+}
+
+#start-button {
+  font-weight: bold;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 62px;
+  height: 26px;
+  padding: 0 6px;
+}
+
+#start-button img {
+  width: 16px;
+  height: 16px;
+}
+
+#start-button.active {
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px var(--button-face), inset 2px 2px var(--button-shadow);
+  padding: 1px 5px 0 7px;
+}
+
+#taskbar-windows {
+  flex: 1;
+  display: flex;
+  gap: 2px;
+  margin: 0 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 26px;
+  min-width: 0;
+}
+
+.taskbar-tab {
+  height: 24px;
+  min-width: 36px;
+  max-width: 120px;
+  flex-shrink: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 5px;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.taskbar-tab img {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.taskbar-tab.active {
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px var(--button-face), inset 2px 2px var(--button-shadow);
+  font-weight: bold;
+  background: #e6e6e6;
+}
+
+#system-tray {
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #808080;
+  background: #c0c0c0;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  gap: 6px;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+#system-tray img {
+  width: 14px;
+  height: 14px;
+}
+
+#tray-clock {
+  font-weight: normal;
+  letter-spacing: 0.5px;
+}
+
+/* Start Menu */
+#start-menu {
+  position: absolute;
+  bottom: 32px;
+  left: 2px;
+  width: 210px;
+  background: #c0c0c0;
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf, 2px 2px 6px rgba(0,0,0,0.5);
+  display: none;
+  flex-direction: row;
+  z-index: 10001;
+}
+
+#start-menu.open {
+  display: flex;
+}
+
+.start-menu-banner {
+  width: 24px;
+  background: linear-gradient(180deg, #000080, #1084d0);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 2px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.start-menu-banner span {
+  color: #dfdfdf;
+  font-weight: normal;
+}
+
+.start-menu-items {
+  flex: 1;
+  padding: 3px 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.start-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.start-item:active, .start-item:hover {
+  background: #000080;
+  color: #fff;
+}
+
+.start-item img {
+  width: 22px;
+  height: 22px;
+}
+
+.start-separator {
+  height: 1px;
+  background: #808080;
+  border-bottom: 1px solid #fff;
+  margin: 3px 2px;
+}
+
+/* Draggable Windows */
+.window {
+  min-width: 280px;
+  min-height: 200px;
+  max-width: 100vw;
+  max-height: calc(100vh - 32px);
+  z-index: 100;
+}
+
+.window.maximized {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: calc(100vh - 32px) !important;
+}
+
+.window.minimized {
+  display: none !important;
+}
+
+/* Window Dialog Styles */
+.dialog-content {
+  display: flex;
+  padding: 10px;
+  gap: 12px;
+}
+
+.dialog-content img {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.dialog-text {
+  flex: 1;
+  font-size: 11px;
+  line-height: 15px;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 8px;
+}
+
+/* Win98 Pop-up Notification */
+#retro-notification {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 340px;
+  z-index: 99999;
+  display: none;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from { top: -60px; opacity: 0; }
+  to { top: 20px; opacity: 1; }
+}
+
+/* Fullscreen Lock Screen / Setup */
+#lock-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #008080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50000;
+}
+
+#lock-screen.hidden {
+  display: none !important;
+}
+
+.lock-window {
+  width: 92%;
+  max-width: 380px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+}
+
+.pin-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.pin-keypad button {
+  height: 36px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/* Phone Dialer UI */
+.dialer-screen {
+  background: #fff;
+  border: 2px solid;
+  border-color: #808080 #dfdfdf #dfdfdf #808080;
+  padding: 8px;
+  font-size: 20px;
+  font-family: monospace;
+  letter-spacing: 2px;
+  text-align: right;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.dialer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.dial-btn {
+  height: 44px;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 14px;
+}
+
+.dial-sub {
+  font-size: 9px;
+  font-weight: normal;
+  color: #666;
+}
+
+.call-btn-large {
+  background: #c0c0c0;
+  color: #008000;
+  font-weight: bold;
+  height: 38px;
+  font-size: 14px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+/* Contacts & SMS Lists */
+.retro-list {
+  background: #fff;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
+  flex: 1;
+  overflow-y: auto;
+  padding: 2px;
+  min-height: 140px;
+}
+
+.retro-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-bottom: 1px solid #efefef;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.retro-list-item:active, .retro-list-item.selected {
+  background-color: #000080;
+  color: #fff;
+}
+
+.retro-list-item:active .action-btn, .retro-list-item.selected .action-btn {
+  color: #000;
+}
+
+.retro-toolbar {
+  display: flex;
+  gap: 4px;
+  padding: 4px 0;
+  align-items: center;
+}
+
+/* Maps & Webmail WebViews */
+.embedded-frame {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  border: 1px solid #808080;
+  background: #fff;
+}
+
+/* Mobile Input Zoom Prevention */
+input[type="text"], input[type="password"], input[type="number"], input[type="search"], textarea {
+  font-size: 16px !important;
+  touch-action: manipulation;
+}
+
+/* Screensaver Canvas */
+#screensaver-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 80000;
+  display: none;
+  background: #000;
+  cursor: none;
+}
+
+/* CRT Monitor Preview */
+.crt-preview-casing {
+  width: 130px;
+  background: #c0c0c0;
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
+  padding: 8px 6px 4px 6px;
+  margin: 0 auto 8px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#monitor-preview-screen {
+  width: 110px;
+  height: 70px;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
+}
+
+.crt-stand {
+  width: 40px;
+  height: 6px;
+  background: #a0a0a0;
+  margin: 2px auto 0 auto;
+}
+
+/* Calculator Layout */
+.calc-screen {
+  background: #fff;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
+  text-align: right;
+  font-family: monospace;
+  font-size: 20px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  height: 28px;
+  overflow: hidden;
+}
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+.calc-grid button {
+  height: 34px;
+  min-width: auto;
+  padding: 0;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Notepad Layout */
+.notepad-textarea {
+  width: 100%;
+  flex: 1;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 6px;
+  box-sizing: border-box;
+  resize: none;
+  outline: none;
+  border: none;
+}
+
+

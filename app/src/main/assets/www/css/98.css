@@ -1,0 +1,211 @@
+/* 98.css - Authentic Windows 98 CSS Library adapted for IdiotPhone */
+:root {
+  --surface: #c0c0c0;
+  --button-highlight: #ffffff;
+  --button-face: #dfdfdf;
+  --button-shadow: #808080;
+  --window-frame: #0a0a0a;
+  --dialog-blue: #000080;
+  --dialog-blue-light: #1084d0;
+  --dialog-gray: #808080;
+  --dialog-gray-light: #b5b5b5;
+  --teal: #008080;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  font-size: 11px;
+  background-color: var(--teal);
+  color: #222;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+/* 3D Box Shadows */
+.outset-deep {
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px var(--button-shadow), inset 2px 2px var(--button-face);
+}
+.inset-deep {
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px var(--button-face), inset 2px 2px var(--button-shadow);
+}
+
+/* Windows */
+.window {
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px var(--button-shadow), inset 2px 2px var(--button-face);
+  background: var(--surface);
+  padding: 3px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.title-bar {
+  background: linear-gradient(90deg, var(--dialog-blue), var(--dialog-blue-light));
+  padding: 3px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: move;
+  touch-action: none;
+}
+
+.window.inactive .title-bar {
+  background: linear-gradient(90deg, var(--dialog-gray), var(--dialog-gray-light));
+  color: #c0c0c0;
+}
+
+.title-bar-text {
+  font-weight: bold;
+  letter-spacing: 0;
+  margin-right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title-bar-text img {
+  width: 14px;
+  height: 14px;
+}
+
+.title-bar-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.title-bar-controls button {
+  padding: 0;
+  display: block;
+  min-width: 16px;
+  min-height: 14px;
+  font-size: 9px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 10px;
+}
+
+/* Buttons */
+button {
+  box-sizing: border-box;
+  border: none;
+  background: var(--surface);
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px var(--button-shadow), inset 2px 2px var(--button-face);
+  border-radius: 0;
+  min-width: 65px;
+  min-height: 22px;
+  padding: 0 10px;
+  font-family: inherit;
+  font-size: 11px;
+  color: #000;
+  outline: none;
+  cursor: pointer;
+}
+
+button:active, button.active {
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px var(--button-face), inset 2px 2px var(--button-shadow);
+  padding: 1px 9px 0 11px;
+}
+
+button:focus {
+  outline: 1px dotted #000;
+  outline-offset: -4px;
+}
+
+/* Window body */
+.window-body {
+  margin: 4px 1px 1px 1px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+/* Fields & Inputs */
+input[type="text"], input[type="password"], input[type="number"], input[type="search"], textarea, select {
+  border: none;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px var(--button-face), inset 2px 2px var(--button-shadow);
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  font-family: inherit;
+  font-size: 12px;
+  outline: none;
+  border-radius: 0;
+}
+
+input:focus, textarea:focus, select:focus {
+  background-color: #fff;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: 2px;
+}
+
+.tab {
+  background: var(--surface);
+  box-shadow: inset -1px 0 #0a0a0a, inset 1px 1px #fff, inset -2px 0 var(--button-shadow), inset 2px 2px var(--button-face);
+  padding: 4px 10px;
+  cursor: pointer;
+  margin-bottom: -1px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.tab.active {
+  padding-bottom: 5px;
+  font-weight: bold;
+  z-index: 2;
+  box-shadow: inset -1px 0 #0a0a0a, inset 1px 1px #fff, inset -2px 0 var(--button-shadow), inset 2px 2px var(--button-face);
+}
+
+.tab-content {
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px var(--button-shadow), inset 2px 2px var(--button-face);
+  padding: 8px;
+  background: var(--surface);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+/* Fieldset */
+fieldset {
+  border: 2px groove #fff;
+  margin: 6px 0;
+  padding: 8px;
+}
+
+legend {
+  font-weight: bold;
+  padding: 0 4px;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+::-webkit-scrollbar-track {
+  background: #dfdfdf;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface);
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px var(--button-shadow), inset 2px 2px var(--button-face);
+}

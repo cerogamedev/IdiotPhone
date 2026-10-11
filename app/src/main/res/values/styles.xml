@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.IdiotPhone" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/win98_teal</item>
+        <item name="android:statusBarColor">@color/win98_teal</item>
+        <item name="android:navigationBarColor">@color/win98_gray</item>
+        <item name="android:windowFullscreen">false</item>
+    </style>
+</resources>

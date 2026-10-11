@@ -1,0 +1,7 @@
+<resources>
+    <color name="win98_teal">#008080</color>
+    <color name="win98_gray">#C0C0C0</color>
+    <color name="win98_dark_blue">#000080</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+</resources>

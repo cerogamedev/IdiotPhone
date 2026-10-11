@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>IdiotPhone 98</title>
+  <link rel="stylesheet" href="css/98.css">
+  <link rel="stylesheet" href="css/idiotphone.css">
+</head>
+<body class="theme-teal">
+
+  <!-- ========================================== -->
+  <!-- RETRO SCREENSAVER CANVAS -->
+  <!-- ========================================== -->
+  <canvas id="screensaver-canvas"></canvas>
+
+  <!-- ========================================== -->
+  <!-- RETRO DESKTOP -->
+  <!-- ========================================== -->
+  <div id="desktop">
+    <div class="desktop-icons">
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-phone')">
+        <img src="img/phone.png" alt="Phone">
+        <span>Phone Dialer</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-contacts')">
+        <img src="img/contacts.png" alt="Contacts">
+        <span>Address Book</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-sms')">
+        <img src="img/sms.png" alt="SMS">
+        <span>SMS Inbox</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-whatsapp')">
+        <img src="img/whatsapp.png" alt="WhatsApp">
+        <span>WhatsApp</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-gmail')">
+        <img src="img/gmail.png" alt="Gmail">
+        <span>Outlook Express</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-maps')">
+        <img src="img/maps.png" alt="Maps">
+        <span>MS Maps</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-calc')">
+        <img src="img/calc.png" alt="Calculator">
+        <span>Calculator</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-notepad')">
+        <img src="img/notepad.png" alt="Notepad">
+        <span>Notepad</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-recorder')">
+        <img src="img/recorder.png" alt="Recorder">
+        <span>Voice Memos</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-controlpanel')">
+        <img src="img/settings.png" alt="Control Panel">
+        <span>Control Panel</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-torch')">
+        <img src="img/torch.png" alt="Flashlight">
+        <span>Torch 98</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-alarm')">
+        <img src="img/alarm.png" alt="Alarm">
+        <span>Alarm & Timer</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-minesweeper')">
+        <img src="img/minesweeper.png" alt="Minesweeper">
+        <span>Minesweeper</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-focus')">
+        <img src="img/focus.png" alt="Focus">
+        <span>Focus Mode</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-emergency')">
+        <img src="img/sos.png" alt="Emergency">
+        <span>Emergency SOS</span>
+      </div>
+      <div class="desktop-icon" onclick="AppLockScreen.show()">
+        <img src="img/lock.png" alt="Lock">
+        <span>Lock Phone</span>
+      </div>
+    </div>
+    <div id="desktop-shortcuts-container" class="desktop-icons" style="margin-top: 10px;"></div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TASKBAR -->
+  <!-- ========================================== -->
+  <div id="taskbar">
+    <button id="start-button">
+      <img src="img/start.png" alt="Win98">
+      <span>Start</span>
+    </button>
+    <div id="taskbar-windows"></div>
+    <div id="system-tray">
+      <span id="tray-focus-badge" style="display:none; cursor:pointer; font-size:12px; margin-right:4px;" title="Focus Mode" onclick="Desktop.openWindow('win-focus')">⏳</span>
+      <span id="tray-sound-profile-icon" style="cursor:pointer; font-size:12px; margin-right:3px;" title="Sound Profile" onclick="Desktop.openWindow('win-volume')">🔊</span>
+      <img src="img/sound.png" id="tray-sound-icon" alt="Sound" onclick="Desktop.openWindow('win-volume')" style="cursor:pointer;" title="Volume Mixer">
+      <img src="img/battery.png" alt="Battery" onclick="Desktop.showBatteryInfo()" style="cursor:pointer;" title="Battery Status">
+      <span id="tray-battery-text" onclick="Desktop.showBatteryInfo()" style="cursor:pointer;">100%</span>
+      <span id="tray-clock">12:00 PM</span>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- START MENU -->
+  <!-- ========================================== -->
+  <div id="start-menu">
+    <div class="start-menu-banner">IdiotPhone <span>98</span></div>
+    <div class="start-menu-items">
+      <div class="start-item" onclick="Desktop.openWindow('win-phone')">
+        <img src="img/phone.png" alt="Phone">
+        <span>Phone Dialer</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-contacts')">
+        <img src="img/contacts.png" alt="Contacts">
+        <span>Address Book</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-sms')">
+        <img src="img/sms.png" alt="SMS">
+        <span>SMS Inbox</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-whatsapp')">
+        <img src="img/whatsapp.png" alt="WhatsApp">
+        <span>WhatsApp Messenger</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-gmail')">
+        <img src="img/gmail.png" alt="Gmail">
+        <span>Outlook Express</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-maps')">
+        <img src="img/maps.png" alt="Maps">
+        <span>Microsoft Maps</span>
+      </div>
+      <div class="start-separator"></div>
+      <div class="start-item" onclick="Desktop.openWindow('win-calc')">
+        <img src="img/calc.png" alt="Calc">
+        <span>Calculator</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-notepad')">
+        <img src="img/notepad.png" alt="Notepad">
+        <span>Notepad</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-recorder')">
+        <img src="img/recorder.png" alt="Recorder">
+        <span>Sound Recorder</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-torch')">
+        <img src="img/torch.png" alt="Flashlight">
+        <span>Flashlight 98</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-alarm')">
+        <img src="img/alarm.png" alt="Alarm">
+        <span>Alarm Clock & Timer</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-minesweeper')">
+        <img src="img/minesweeper.png" alt="Minesweeper">
+        <span>Minesweeper</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-focus')">
+        <img src="img/focus.png" alt="Focus">
+        <span>Focus & Standby</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-volume')">
+        <img src="img/volume_mixer.png" alt="Volume">
+        <span>Volume Mixer</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-cleanmgr')">
+        <img src="img/cleanmgr.png" alt="Cleanmgr">
+        <span>Disk Cleanup</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-dxdiag')">
+        <img src="img/dxdiag.png" alt="dxdiag">
+        <span>DirectX Diagnostics</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-backup')">
+        <img src="img/regedit.png" alt="Backup">
+        <span>Registry Backup Wizard</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-emergency')">
+        <img src="img/sos.png" alt="SOS">
+        <span style="color:#a00000; font-weight:bold;">Emergency SOS...</span>
+      </div>
+      <div class="start-separator"></div>
+      <div class="start-item" onclick="Desktop.openWindow('win-controlpanel')">
+        <img src="img/settings.png" alt="Settings">
+        <span>Control Panel...</span>
+      </div>
+      <div class="start-item" onclick="Desktop.showRunDialog()">
+        <img src="img/run.png" alt="Run">
+        <span>Run...</span>
+      </div>
+      <div class="start-item" onclick="AppLockScreen.show()">
+        <img src="img/lock.png" alt="Lock">
+        <span>Lock Computer</span>
+      </div>
+      <div class="start-separator"></div>
+      <div class="start-item" onclick="Desktop.showShutDownDialog()">
+        <img src="img/shutdown.png" alt="Shut Down">
+        <span>Shut Down...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- APPLICATION WINDOWS -->
+  <!-- ========================================== -->
+
+  <!-- 1. PHONE DIALER -->
+  <div id="win-phone" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/phone.png"><span>Phone Dialer 98</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-phone')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-phone')">口</button>
+        <button onclick="Desktop.closeWindow('win-phone')">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <ul class="tabs">
+        <li id="phone-tab-keypad" class="tab active">Keypad</li>
+        <li id="phone-tab-log" class="tab">Recent Calls</li>
+        <li id="phone-tab-speed" class="tab">Speed Dial</li>
+      </ul>
+      <div class="tab-content">
+        <!-- Keypad View -->
+        <div id="phone-view-keypad">
+          <div class="dialer-screen">
+            <span id="dialer-display-num"></span>
+            <button onclick="AppPhone.backspace()" style="min-width:32px; height:24px; font-size:12px;">⌫</button>
+          </div>
+          <div id="dialer-keypad" class="dialer-grid"></div>
+          <div style="font-size:10px; color:#555; margin-top:4px; text-align:center;">Tip: Hold keys 1-9 to Speed Dial</div>
+          <div style="display:flex; gap:6px; margin-top:6px;">
+            <button class="call-btn-large" onclick="AppPhone.makeCall()">📞 Call</button>
+            <button onclick="AppPhone.clearNumber()" style="width:70px; height:38px; margin-top:8px;">Clear</button>
+          </div>
+        </div>
+        <!-- Recent Calls View -->
+        <div id="phone-view-log" style="display:none; flex:1;">
+          <div id="call-log-list" class="retro-list" style="height:280px;"></div>
+        </div>
+        <!-- Speed Dial View -->
+        <div id="phone-view-speed" style="display:none; flex:1;">
+          <div style="font-size:11px; margin-bottom:6px; color:#333;">Assign contacts to keys 1 to 9:</div>
+          <div id="speed-dial-list" class="retro-list" style="height:260px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. CONTACTS / ADDRESS BOOK -->
+  <div id="win-contacts" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/contacts.png"><span>Address Book - Contacts</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-contacts')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-contacts')">口</button>
+        <button onclick="Desktop.closeWindow('win-contacts')">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="retro-toolbar">
+        <input type="search" id="contacts-search-input" placeholder="Search name or digits..." style="flex:1;">
+        <button onclick="AppContacts.showAddModal()">+ New Contact</button>
+      </div>
+      <div id="contacts-list" class="retro-list" style="flex:1;"></div>
+      <div style="padding:4px 2px; font-size:10px; color:#555;" id="contacts-count">0 Contacts</div>
+    </div>
+  </div>
+
+  <!-- 3. SMS INBOX -->
+  <div id="win-sms" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/sms.png"><span>SMS Inbox & Messages</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-sms')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-sms')">口</button>
+        <button onclick="Desktop.closeWindow('win-sms')">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <ul class="tabs">
+        <li id="sms-tab-inbox" class="tab active">Inbox</li>
+        <li id="sms-tab-compose" class="tab">New Message</li>
+      </ul>
+      <div class="tab-content">
+        <!-- Inbox View -->
+        <div id="sms-view-inbox" style="flex:1; display:flex; flex-direction:column;">
+          <div class="retro-toolbar">
+            <button onclick="AppSMS.loadInbox()">↻ Refresh</button>
+            <button onclick="AppSMS.openCompose()">✉ Compose</button>
+          </div>
+          <div id="sms-list" class="retro-list" style="flex:1;"></div>
+        </div>
+        <!-- Compose View -->
+        <div id="sms-view-compose" style="display:none; flex:1;">
+          <fieldset>
+            <legend>Send SMS</legend>
+            <div style="margin-bottom:6px;">
+              <label>To (Phone Number):</label>
+              <input type="text" id="sms-compose-to" placeholder="+90..." style="width:100%; margin-top:2px;">
+            </div>
+            <div style="margin-bottom:6px;">
+              <label>Message:</label>
+              <textarea id="sms-compose-body" rows="4" style="width:100%; margin-top:2px;" placeholder="Type your SMS message..."></textarea>
+            </div>
+            <div id="sms-compose-error" style="color:red; font-size:11px; margin-bottom:6px;"></div>
+            <button onclick="AppSMS.sendComposeMessage()" style="font-weight:bold; width:100%;">Send Message</button>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. WHATSAPP MESSENGER -->
+  <div id="win-whatsapp" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/whatsapp.png"><span>MSN Messenger - WhatsApp Edition</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-whatsapp')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-whatsapp')">口</button>
+        <button onclick="Desktop.closeWindow('win-whatsapp')">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <ul class="tabs">
+        <li id="wa-tab-chat" class="tab active">Retro Chat</li>
+        <li id="wa-tab-web" class="tab">WhatsApp Web</li>
+      </ul>
+      <div class="tab-content">
+        <!-- Retro Chat View -->
+        <div id="wa-view-chat" style="flex:1; display:flex; flex-direction:column;">
+          <fieldset>
+            <legend>Compose Message</legend>
+            <div style="margin-bottom:4px;">
+              <label>Select Contact:</label>
+              <select id="wa-contact-select" style="width:100%; margin-top:2px; font-size:11px;"></select>
+            </div>
+            <div style="margin-bottom:4px;">
+              <label>Recipient Number:</label>
+              <div style="display:flex; gap:4px; margin-top:2px;">
+                <input type="text" id="wa-recipient-input" placeholder="e.g. +905551234567" style="flex:1;">
+                <button onclick="Desktop.openWindow('win-contacts')" style="min-width:auto; font-size:10px;">Rehber</button>
+              </div>
+            </div>
+            <div style="margin-bottom:4px;">
+              <label>Message:</label>
+              <textarea id="wa-message-input" rows="3" style="width:100%; margin-top:2px;" placeholder="Write message..."></textarea>
+            </div>
+            <div style="margin-bottom:6px;">
+              <div style="font-size:10px; color:#555; margin-bottom:2px;">Quick Templates:</div>
+              <div id="wa-quick-replies" style="display:flex; gap:4px; flex-wrap:wrap;"></div>
+            </div>
+            <div id="wa-chat-error" style="color:red; font-size:11px; margin-bottom:4px;"></div>
+            <button onclick="AppWhatsApp.sendWhatsAppMessage()" style="font-weight:bold; color:#008000; width:100%;">
+              🟢 Send via WhatsApp
+            </button>
+          </fieldset>
+          <fieldset style="flex:1; display:flex; flex-direction:column;">
+            <legend>Sent Chats History</legend>
+            <div id="wa-history-list" class="retro-list" style="flex:1;"></div>
+          </fieldset>
+        </div>
+
+        <!-- WhatsApp Web View -->
+        <div id="wa-view-web" style="display:none; flex:1; flex-direction:column; padding:6px;">
+          <fieldset style="flex:1; display:flex; flex-direction:column;">
+            <legend>WhatsApp Web Client</legend>
+            <div style="text-align:center; padding:12px 6px; flex:1;">
+              <img src="img/whatsapp.png" style="width:48px; height:48px; margin-bottom:8px;">
+              <div style="font-weight:bold; font-size:13px; color:#008000; margin-bottom:6px;">Link WhatsApp Account</div>
+              <div style="font-size:11px; color:#333; line-height:16px; margin-bottom:12px; text-align:left;">
+                1. Open WhatsApp on your primary phone.<br>
+                2. Tap <b>Settings &gt; Linked Devices &gt; Link a Device</b>.<br>
+                3. Scan the QR code in the browser window to pair.<br>
+              </div>
+              <button onclick="AppWhatsApp.openFullWeb()" style="font-weight:bold; height:36px; width:100%; font-size:12px; color:#006600;">
+                🌐 Launch WhatsApp Web Window
+              </button>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. OUTLOOK EXPRESS / GMAIL -->
+  <div id="win-gmail" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/gmail.png"><span>Outlook Express 5.0 - Gmail</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-gmail')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-gmail')">口</button>
+        <button onclick="Desktop.closeWindow('win-gmail')">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="retro-toolbar">
+        <button id="gmail-compose-btn">✉ New Message</button>
+        <button id="gmail-openweb-btn" style="color:#000080; font-weight:bold;">🌐 Open Webmail</button>
+      </div>
+      <fieldset style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:12px;">
+        <legend>Google Mail Service</legend>
+        <img src="img/gmail.png" style="width:44px; height:44px; margin-bottom:8px;">
+        <div style="font-size:12px; font-weight:bold; margin-bottom:4px;">Outlook Express - Gmail</div>
+        <div style="font-size:11px; color:#555; max-width:260px; margin-bottom:12px; line-height:14px;">
+          Access your inbox, sent items, and compose emails securely inside IdiotPhone.
+        </div>
+        <button onclick="AppGmail.openFullWeb()" style="width:100%; height:32px; font-weight:bold; font-size:12px;">
+          📥 Open Gmail Webmail
+        </button>
+      </fieldset>
+    </div>
+  </div>
+
+  <!-- 6. MICROSOFT MAPS 98 / HARITALAR -->
+  <div id="win-maps" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/maps.png"><span>Microsoft Map 98 - Streets</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-maps')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-maps')">口</button>
+        <button onclick="Desktop.closeWindow('win-maps')">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="retro-toolbar">
+        <input type="search" id="maps-search-input" placeholder="Search city or street..." style="flex:1;">
+        <button id="maps-search-btn">Find</button>
+        <button id="maps-gps-btn" title="My GPS Location">📍 GPS</button>
+        <button id="maps-zoomin-btn">+</button>
+        <button id="maps-zoomout-btn">-</button>
+      </div>
+      <div id="maps-status" style="font-size:10px; color:#555; padding:2px 4px;">Ready</div>
+      <iframe id="maps-iframe" class="embedded-frame" src="about:blank"></iframe>
+    </div>
+  </div>
+
+  <!-- 7. CALCULATOR (calc.exe) -->
+  <div id="win-calc" class="window" style="display:none; width:260px;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/calc.png"><span>Calculator</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-calc')">_</button>
+        <button onclick="Desktop.closeWindow('win-calc')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:6px;">
+      <div id="calc-display" class="calc-screen">0</div>
+      <div style="display:flex; gap:4px; margin-bottom:6px;">
+        <button onclick="AppCalc.backspace()" style="flex:1;">Backspace</button>
+        <button onclick="AppCalc.clearEntry()" style="flex:1;">CE</button>
+        <button onclick="AppCalc.clearAll()" style="flex:1;">C</button>
+      </div>
+      <div class="calc-grid">
+        <button onclick="AppCalc.inputDigit(7)">7</button>
+        <button onclick="AppCalc.inputDigit(8)">8</button>
+        <button onclick="AppCalc.inputDigit(9)">9</button>
+        <button onclick="AppCalc.setOperation('/')">/</button>
+        <button onclick="AppCalc.sqrt()">sqrt</button>
+
+        <button onclick="AppCalc.inputDigit(4)">4</button>
+        <button onclick="AppCalc.inputDigit(5)">5</button>
+        <button onclick="AppCalc.inputDigit(6)">6</button>
+        <button onclick="AppCalc.setOperation('*')">*</button>
+        <button onclick="AppCalc.percent()">%</button>
+
+        <button onclick="AppCalc.inputDigit(1)">1</button>
+        <button onclick="AppCalc.inputDigit(2)">2</button>
+        <button onclick="AppCalc.inputDigit(3)">3</button>
+        <button onclick="AppCalc.setOperation('-')">-</button>
+        <button onclick="AppCalc.reciprocal()">1/x</button>
+
+        <button onclick="AppCalc.inputDigit(0)">0</button>
+        <button onclick="AppCalc.toggleSign()">+/-</button>
+        <button onclick="AppCalc.inputDecimal()">.</button>
+        <button onclick="AppCalc.setOperation('+')">+</button>
+        <button onclick="AppCalc.equals()" style="background:#c0e8c0; font-weight:bold;">=</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. NOTEPAD (notepad.exe) -->
+  <div id="win-notepad" class="window" style="display:none; width:320px; height:340px;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/notepad.png"><span>Notepad - Quick Notes</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-notepad')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-notepad')">口</button>
+        <button onclick="Desktop.closeWindow('win-notepad')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:2px; display:flex; flex-direction:column;">
+      <div class="retro-toolbar" style="padding:2px 4px;">
+        <button onclick="AppNotepad.newFile()" style="font-size:10px;">New</button>
+        <button onclick="AppNotepad.saveFile()" style="font-size:10px;">Save</button>
+      </div>
+      <textarea id="notepad-textarea" class="notepad-textarea" placeholder="Type quick notes, shopping lists, or reminders..."></textarea>
+      <div id="notepad-status" style="font-size:10px; color:#555; padding:2px 4px; background:#e0e0e0; border-top:1px solid #808080;">Ln 1, Col 0</div>
+    </div>
+  </div>
+
+  <!-- 9. SOUND RECORDER (sndrec32.exe) -->
+  <div id="win-recorder" class="window" style="display:none; width:290px;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/recorder.png"><span>Sound Recorder - Voice Memos</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-recorder')">_</button>
+        <button onclick="Desktop.closeWindow('win-recorder')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:6px;">
+      <div style="display:flex; justify-content:space-between; font-size:10px; margin-bottom:4px;">
+        <span id="recorder-status-text">Ready</span>
+        <span id="recorder-pos-text">0.00 sec</span>
+      </div>
+      <canvas id="recorder-wave-canvas" width="270" height="48" style="background:#000; border:2px inset #808080; margin-bottom:8px;"></canvas>
+      <div style="display:flex; gap:4px; justify-content:center; margin-bottom:8px;">
+        <button id="rec-btn-rewind" style="font-size:11px;">⏮</button>
+        <button id="rec-btn-play" style="font-size:11px;">▶ Play</button>
+        <button id="rec-btn-stop" style="font-size:11px;">■ Stop</button>
+        <button id="rec-btn-record" style="font-size:11px; color:red; font-weight:bold;">🔴 Rec</button>
+      </div>
+      <fieldset>
+        <legend>Saved Voice Memos</legend>
+        <div id="recorder-memos-list" class="retro-list" style="height:110px;"></div>
+      </fieldset>
+    </div>
+  </div>
+
+  <!-- 10. CONTROL PANEL / SETTINGS -->
+  <div id="win-controlpanel" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/settings.png"><span>Control Panel - IdiotPhone</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-controlpanel')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-controlpanel')">口</button>
+        <button onclick="Desktop.closeWindow('win-controlpanel')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:6px;">
+      <!-- CRT Monitor Display Preview -->
+      <fieldset>
+        <legend>Display Properties</legend>
+        <div class="crt-preview-casing">
+          <div id="monitor-preview-screen" class="theme-teal"></div>
+          <div class="crt-stand"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span>Wallpaper:</span>
+          <select id="setting-wallpaper-select">
+            <option value="teal">Windows 98 Teal</option>
+            <option value="navy">Setup Navy Blue</option>
+            <option value="gray">Classic Neutral Gray</option>
+            <option value="black">AMOLED Pitch Black (Power Saver)</option>
+            <option value="clouds">Windows Clouds Radial</option>
+            <option value="matrix">Matrix Green Terminal</option>
+          </select>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span>Screensaver Timeout:</span>
+          <select id="setting-screensaver-select">
+            <option value="30000">30 Seconds</option>
+            <option value="60000">1 Minute</option>
+            <option value="120000">2 Minutes</option>
+            <option value="300000">5 Minutes</option>
+            <option value="0">Never (Disabled)</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Security & PIN</legend>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span>Master Exit PIN:</span>
+          <button onclick="AppControlPanel.showChangePinModal()">Change PIN...</button>
+        </div>
+        <div>
+          <label><input type="checkbox" id="setting-lock-toggle" checked> Lock phone on physical screen sleep</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Audio & Tactile Haptics</legend>
+        <div style="margin-bottom:6px;">
+          <label><input type="checkbox" id="setting-sound-toggle" checked> Enable retro Win98 sound effects (Ding, Chord, Tada)</label>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span>Haptic Vibration Feedback:</span>
+          <select id="setting-haptic-select">
+            <option value="off">Off</option>
+            <option value="light">Light (15ms)</option>
+            <option value="med">Medium (40ms)</option>
+            <option value="strong">Strong (80ms)</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Android System</legend>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span id="setting-permissions-status">Checking permissions...</span>
+          <button onclick="AppControlPanel.requestPermissions()">Permissions</button>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button onclick="AppControlPanel.openAndroidSettingsPrompt()" style="flex:1;">Android Settings (PIN)</button>
+          <button onclick="Desktop.promptExitPin()" style="flex:1; color:red;">Exit IdiotPhone</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>About</legend>
+        <div style="font-size:11px;">
+          <b>IdiotPhone 98</b> for Redmi & Android<br>
+          Minimalist Retro Dumbphone Kiosk Edition<br>
+          Version 1.0.0 (Gold Master)
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <!-- 11. FLASHLIGHT 98 -->
+  <div id="win-torch" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/torch.png"><span>Torch 98 - Flashlight Utility</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-torch')">_</button>
+        <button onclick="Desktop.closeWindow('win-torch')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="text-align:center; padding:16px;">
+      <div style="display:flex; justify-content:center; align-items:center; margin-bottom:12px;">
+        <div id="torch-bulb-indicator" style="width:50px; height:50px; border-radius:50%; background:#808080; border:3px solid #000; transition:all 0.2s;"></div>
+      </div>
+      <div id="torch-status-text" style="font-weight:bold; font-size:14px; margin-bottom:16px; color:#800000;">
+        STATUS: TORCH IS OFF
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; max-width:240px; margin:0 auto;">
+        <button id="torch-toggle-btn" onclick="AppTorch.toggle()" style="height:38px; font-size:14px; font-weight:bold;">Turn ON</button>
+        <button id="torch-strobe-btn" onclick="AppTorch.toggleStrobe()" style="height:32px;">Emergency SOS Strobe</button>
+        <button onclick="AppTorch.toggleScreenTorch()" style="height:30px;">Screen Light Mode</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. EMERGENCY SOS & ICE DIALING -->
+  <div id="win-emergency" class="window" style="display:none;">
+    <div class="title-bar" style="background:linear-gradient(90deg, #800000, #ff0000);">
+      <div class="title-bar-text"><img src="img/sos.png"><span style="color:#ffffff; font-weight:bold;">Emergency SOS & ICE Dial</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.closeWindow('win-emergency')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:10px;">
+      <div style="background:#fff3f3; border:2px solid #800000; padding:8px; margin-bottom:10px;">
+        <div style="color:#800000; font-weight:bold; font-size:12px;">🚨 IN CASE OF EMERGENCY (ICE)</div>
+        <div style="font-size:11px; margin-top:2px;">Fast access to emergency helplines & broadcast location.</div>
+      </div>
+      <fieldset style="margin-bottom:8px;">
+        <legend>Official Emergency Services</legend>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+          <button onclick="AppEmergency.dialEmergency('112')" style="height:36px; font-weight:bold; color:#800000; font-size:13px;">📞 112 (EU/TR)</button>
+          <button onclick="AppEmergency.dialEmergency('911')" style="height:36px; font-weight:bold; color:#800000; font-size:13px;">📞 911 (US)</button>
+        </div>
+      </fieldset>
+      <fieldset style="margin-bottom:8px;">
+        <legend>Personal ICE Contact</legend>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <div>
+            <div id="ice-contact-name-display" style="font-weight:bold; font-size:12px;">Family / Guardian</div>
+            <div id="ice-contact-num-display" style="font-size:11px; color:#555;">(Not configured)</div>
+          </div>
+          <button onclick="AppEmergency.promptSetIce()">Configure</button>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button onclick="const n=AppEmergency.getIceContact().number; if(n) AppEmergency.dialEmergency(n); else alert('Set ICE contact first!');" style="flex:1; height:30px; font-weight:bold;">Call ICE</button>
+          <button onclick="AppEmergency.sendSosGpsMessage()" style="flex:1; height:30px; color:#800000; font-weight:bold;">Broadcast GPS SMS</button>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <!-- 13. ALARM CLOCK & TIMERS -->
+  <div id="win-alarm" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/alarm.png"><span>Clock, Alarm & Timer 98</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-alarm')">_</button>
+        <button onclick="Desktop.closeWindow('win-alarm')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:8px;">
+      <fieldset style="margin-bottom:8px;">
+        <legend>Configured Alarms</legend>
+        <div id="alarm-items-list" style="max-height:140px; overflow-y:auto; background:#fff; border:2px inset #fff; margin-bottom:6px;"></div>
+        <button onclick="AppAlarm.addAlarm()" style="font-weight:bold;">+ Add New Alarm...</button>
+      </fieldset>
+      <fieldset>
+        <legend>Quick Nap & Focus Timer</legend>
+        <div style="text-align:center; margin-bottom:6px;">
+          <div id="alarm-timer-countdown" style="font-family:'Courier New',monospace; font-size:28px; font-weight:bold; color:#000080; background:#fff; border:2px inset #fff; padding:4px; display:inline-block; min-width:120px;">00:00</div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:4px; margin-bottom:6px;">
+          <button onclick="AppAlarm.startNapTimer(15)">15 Min</button>
+          <button onclick="AppAlarm.startNapTimer(30)">30 Min</button>
+          <button onclick="AppAlarm.startNapTimer(45)">45 Min</button>
+          <button onclick="AppAlarm.startNapTimer(60)">60 Min</button>
+        </div>
+        <button onclick="AppAlarm.stopTimer()" style="width:100%; color:#800000;">Stop Timer</button>
+      </fieldset>
+    </div>
+  </div>
+
+  <!-- 14. FOCUS & STANDBY MODE -->
+  <div id="win-focus" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/focus.png"><span>Focus & Standby 98</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-focus')">_</button>
+        <button onclick="Desktop.closeWindow('win-focus')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:12px; text-align:center;">
+      <div style="font-size:28px; margin-bottom:4px;">⏳</div>
+      <div id="focus-status-text" style="font-weight:bold; font-size:13px; color:#000080; margin-bottom:4px;">STATUS: IDLE</div>
+      <div id="focus-countdown-display" style="font-family:'Courier New',monospace; font-size:32px; font-weight:bold; color:#008000; margin-bottom:12px;">00:00</div>
+      <div style="display:flex; flex-direction:column; gap:6px; max-width:240px; margin:0 auto 12px auto;">
+        <button onclick="AppFocus.startFocus(25)" style="height:32px;">Start 25m Pomodoro</button>
+        <button onclick="AppFocus.startFocus(60)" style="height:32px;">Start 1 Hour Deep Work</button>
+        <button onclick="AppFocus.startFocus(120)" style="height:32px;">Start 2 Hours Dumbphone Mode</button>
+        <button id="focus-cancel-btn" onclick="AppFocus.stopFocus()" style="display:none; color:red; height:30px;">End Focus Early</button>
+      </div>
+      <div style="font-size:11px; color:#555; border-top:1px solid #dfdfdf; padding-top:6px;">
+        <div id="focus-stats-display">0 hrs focused across 0 sessions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 15. MINESWEEPER 98 -->
+  <div id="win-minesweeper" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/minesweeper.png"><span>Minesweeper 98</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-minesweeper')">_</button>
+        <button onclick="Desktop.closeWindow('win-minesweeper')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:8px; display:flex; flex-direction:column; align-items:center;">
+      <div style="display:flex; justify-content:space-between; align-items:center; width:260px; background:#c0c0c0; border:2px inset #ffffff; padding:4px 8px; margin-bottom:8px;">
+        <div id="ms-mines-count" style="background:#000; color:#ff0000; font-family:'Courier New',monospace; font-size:22px; font-weight:bold; padding:0 4px; border:1px inset #808080; min-width:44px; text-align:center;">010</div>
+        <button id="ms-smiley-btn" onclick="AppMinesweeper.resetGame()" style="width:34px; height:34px; font-size:18px; padding:0; display:flex; align-items:center; justify-content:center;">🙂</button>
+        <div id="ms-time-count" style="background:#000; color:#ff0000; font-family:'Courier New',monospace; font-size:22px; font-weight:bold; padding:0 4px; border:1px inset #808080; min-width:44px; text-align:center;">000</div>
+      </div>
+      <div style="margin-bottom:8px; width:260px; display:flex; justify-content:center;">
+        <button id="ms-flag-toggle-btn" onclick="AppMinesweeper.toggleFlagMode()" style="height:28px; width:100%; font-weight:bold;">Mode: ⛏️ Digging</button>
+      </div>
+      <div id="ms-grid-container" style="border:3px inset #ffffff; background:#7b7b7b; display:inline-block;"></div>
+    </div>
+  </div>
+
+  <!-- 16. DISK CLEANUP 98 -->
+  <div id="win-cleanmgr" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/cleanmgr.png"><span>Disk Cleanup for (C:)</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.closeWindow('win-cleanmgr')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:10px;">
+      <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
+        <img src="img/cleanmgr.png" style="width:32px; height:32px;">
+        <div>
+          <div style="font-weight:bold; font-size:12px;">Disk Cleanup Utility</div>
+          <div id="clean-drive-info" style="font-size:11px; color:#444;">Drive C: - Scanning storage...</div>
+        </div>
+      </div>
+      <fieldset style="margin-bottom:10px;">
+        <legend>Files to remove:</legend>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:11px;">
+          <label style="display:flex; justify-content:space-between;">
+            <span><input type="checkbox" id="clean-chk-notes" checked> Temporary Notepad Autosaves</span>
+            <span id="clean-size-notes" style="font-weight:bold;">0 KB</span>
+          </label>
+          <label style="display:flex; justify-content:space-between;">
+            <span><input type="checkbox" id="clean-chk-memos"> Voice Memos Audio Storage</span>
+            <span id="clean-size-memos" style="font-weight:bold;">0 KB</span>
+          </label>
+          <label style="display:flex; justify-content:space-between;">
+            <span><input type="checkbox" id="clean-chk-wa" checked> WhatsApp Message Cache</span>
+            <span id="clean-size-wa" style="font-weight:bold;">0 KB</span>
+          </label>
+        </div>
+      </fieldset>
+      <div id="clean-progress-container" style="display:none; margin-bottom:10px;">
+        <div id="clean-status-label" style="font-size:11px; margin-bottom:4px;">Cleaning files...</div>
+        <div style="background:#fff; border:2px inset #fff; height:18px; width:100%; position:relative;">
+          <div id="clean-progress-bar" style="background:#000080; height:100%; width:0%; transition:width 0.2s;"></div>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:6px;">
+        <button onclick="AppCleanmgr.executeCleanup()" style="font-weight:bold;">Clean Now</button>
+        <button onclick="Desktop.closeWindow('win-cleanmgr')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17. VOLUME MIXER 98 -->
+  <div id="win-volume" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/volume_mixer.png"><span>Volume Control 98</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.closeWindow('win-volume')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:10px;">
+      <fieldset style="margin-bottom:10px;">
+        <legend>Sound Profile</legend>
+        <div style="display:flex; gap:6px;">
+          <button id="vol-btn-normal" onclick="AppVolume.setProfile(2)" style="flex:1; height:32px;">🔊 Normal</button>
+          <button id="vol-btn-vibrate" onclick="AppVolume.setProfile(1)" style="flex:1; height:32px;">📳 Vibrate</button>
+          <button id="vol-btn-silent" onclick="AppVolume.setProfile(0)" style="flex:1; height:32px;">🔇 Silent</button>
+        </div>
+      </fieldset>
+      <fieldset style="margin-bottom:10px;">
+        <legend>Master Volume (<span id="vol-level-label">80%</span>)</legend>
+        <input type="range" id="vol-slider-master" min="0" max="100" value="80" oninput="AppVolume.setVolume(this.value)" style="width:100%; margin:8px 0;">
+      </fieldset>
+      <div style="display:flex; justify-content:space-between;">
+        <button onclick="AppVolume.testSpeaker()">Test Chime</button>
+        <button onclick="Desktop.closeWindow('win-volume')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 18. DIRECTX DIAGNOSTICS (dxdiag 98) -->
+  <div id="win-dxdiag" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/dxdiag.png"><span>DirectX Diagnostic Tool</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-dxdiag')">_</button>
+        <button onclick="Desktop.closeWindow('win-dxdiag')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:8px;">
+      <ul class="tabs">
+        <li id="dxdiag-tab-btn-system" class="tab active" onclick="AppDxDiag.setTab('system')">System</li>
+        <li id="dxdiag-tab-btn-display" class="tab" onclick="AppDxDiag.setTab('display')">Display</li>
+        <li id="dxdiag-tab-btn-sound" class="tab" onclick="AppDxDiag.setTab('sound')">Sound</li>
+        <li id="dxdiag-tab-btn-network" class="tab" onclick="AppDxDiag.setTab('network')">Network</li>
+      </ul>
+      <div class="tab-content" style="padding:10px; min-height:220px; font-size:11px;">
+        <div id="dxdiag-pane-system">
+          <p>This tool reports detailed information about the IdiotPhone 98 hardware components.</p>
+          <table style="width:100%; line-height:1.6;">
+            <tr><td style="color:#555; width:110px;">Current Date/Time:</td><td id="dx-date" style="font-weight:bold;"></td></tr>
+            <tr><td style="color:#555;">Computer Name:</td><td>IDIOTPHONE-98</td></tr>
+            <tr><td style="color:#555;">Device Model:</td><td id="dx-model" style="font-weight:bold;"></td></tr>
+            <tr><td style="color:#555;">Operating System:</td><td id="dx-os"></td></tr>
+            <tr><td style="color:#555;">Memory:</td><td id="dx-mem" style="font-weight:bold;"></td></tr>
+            <tr><td style="color:#555;">System Uptime:</td><td id="dx-uptime"></td></tr>
+            <tr><td style="color:#555;">DirectX Version:</td><td>DirectX 98.0 Retro Dumbphone</td></tr>
+          </table>
+        </div>
+        <div id="dxdiag-pane-display" style="display:none;">
+          <table style="width:100%; line-height:1.6;">
+            <tr><td style="color:#555; width:110px;">Device:</td><td>Mobile AMOLED Panel</td></tr>
+            <tr><td style="color:#555;">Display Mode:</td><td id="dx-res" style="font-weight:bold;"></td></tr>
+            <tr><td style="color:#555;">DPI Density:</td><td id="dx-dpr"></td></tr>
+            <tr><td style="color:#555;">DirectDraw:</td><td>Enabled (Hardware Acceleration)</td></tr>
+            <tr><td style="color:#555;">Direct3D:</td><td>Enabled (WebGL / 2D Canvas)</td></tr>
+          </table>
+        </div>
+        <div id="dxdiag-pane-sound" style="display:none;">
+          <table style="width:100%; line-height:1.6;">
+            <tr><td style="color:#555; width:110px;">Sound Device:</td><td>16-bit PCM Audio Synthesizer</td></tr>
+            <tr><td style="color:#555;">Format:</td><td>44.1 kHz, 16-Bit Stereo WAV</td></tr>
+            <tr><td style="color:#555;">Haptic Engine:</td><td>Vibrator Tactile Motor (Active)</td></tr>
+            <tr><td style="color:#555;">Drivers:</td><td>Certified Win98 Retro Audio Driver</td></tr>
+          </table>
+        </div>
+        <div id="dxdiag-pane-network" style="display:none;">
+          <table style="width:100%; line-height:1.6;">
+            <tr><td style="color:#555; width:110px;">SIM Carrier:</td><td id="dx-carrier" style="font-weight:bold;"></td></tr>
+            <tr><td style="color:#555;">Flash Storage:</td><td id="dx-storage"></td></tr>
+            <tr><td style="color:#555;">GPS Location:</td><td>Hardware GPS + Cell Tower Provider</td></tr>
+            <tr><td style="color:#555;">Security Kiosk:</td><td>Active (PIN Protected)</td></tr>
+          </table>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-between; margin-top:8px;">
+        <button onclick="AppDxDiag.saveAllInfo()">Save All Information...</button>
+        <button onclick="Desktop.closeWindow('win-dxdiag')">Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 19. REGISTRY BACKUP WIZARD 98 -->
+  <div id="win-backup" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/regedit.png"><span>System Registry Backup Wizard</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.closeWindow('win-backup')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:10px;">
+      <p style="font-size:11px; margin-bottom:8px;">
+        Export or restore all IdiotPhone data, speed dials, notes, voice memos, alarms, and settings.
+      </p>
+      <div style="display:flex; gap:6px; margin-bottom:8px;">
+        <button onclick="AppBackup.createFullBackup()" style="font-weight:bold; flex:1;">Create Full Backup</button>
+        <button onclick="AppBackup.restoreFromDeviceStorage()" style="flex:1;">Restore from Device</button>
+      </div>
+      <textarea id="backup-json-textarea" placeholder="Backup JSON output or paste here to restore..." style="width:100%; height:120px; font-family:'Courier New',monospace; font-size:10px; margin-bottom:8px;"></textarea>
+      <div style="display:flex; justify-content:space-between;">
+        <button onclick="AppBackup.restoreFromText()" style="color:#800000; font-weight:bold;">Restore from JSON</button>
+        <button onclick="Desktop.closeWindow('win-backup')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIALOG: ALARM RINGING POPUP -->
+  <div id="dialog-alarm-ringing" class="window" style="display:none; position:fixed; top:25%; left:50%; transform:translateX(-50%); width:280px; z-index:99999;">
+    <div class="title-bar" style="background:#800000;">
+      <div class="title-bar-text"><img src="img/alarm.png"><span style="color:#fff; font-weight:bold;">Alarm Alert!</span></div>
+    </div>
+    <div class="window-body" style="padding:12px; text-align:center;">
+      <div style="font-size:32px; margin-bottom:6px;">⏰</div>
+      <div id="alarm-ringing-label" style="font-size:15px; font-weight:bold; color:#000080; margin-bottom:12px;">Wake Up!</div>
+      <div style="display:flex; gap:8px;">
+        <button onclick="AppAlarm.snoozeAlarm(5)" style="flex:1; height:32px;">Snooze (5m)</button>
+        <button onclick="AppAlarm.dismissAlarm()" style="flex:1; height:32px; font-weight:bold; color:#800000;">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODALS & DIALOGS -->
+  <!-- ========================================== -->
+
+  <!-- RUN DIALOG (run.exe) -->
+  <div id="dlg-run" class="window dialog-modal" style="display:none; position:fixed; top:25%; left:50%; transform:translateX(-50%); width:320px; z-index:93000;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/run.png"><span>Run</span></div>
+      <div class="title-bar-controls">
+        <button onclick="document.getElementById('dlg-run').style.display='none'">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="dialog-content">
+        <img src="img/run.png" alt="Run">
+        <div class="dialog-text">
+          Type the name of a program, and Windows will open it for you.
+          <div style="margin-top:6px; display:flex; align-items:center; gap:6px;">
+            <label>Open:</label>
+            <input type="text" id="run-cmd-input" placeholder="e.g. calc, notepad, dialer, wa, maps" style="flex:1;">
+          </div>
+        </div>
+      </div>
+      <div class="dialog-buttons">
+        <button onclick="Desktop.executeRunCommand()">OK</button>
+        <button onclick="document.getElementById('dlg-run').style.display='none'">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOLUME CONTROL POPUP -->
+  <div id="dlg-volume" class="window dialog-modal" style="display:none; position:fixed; bottom:34px; right:4px; width:140px; z-index:94000;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/sound.png"><span>Volume</span></div>
+      <div class="title-bar-controls">
+        <button onclick="document.getElementById('dlg-volume').style.display='none'">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:8px; text-align:center;">
+      <div style="font-size:10px; font-weight:bold; margin-bottom:6px;">Master Volume</div>
+      <input type="range" min="0" max="100" value="80" style="width:100%;" onchange="SoundManager.playClick()">
+      <div style="margin-top:8px;">
+        <label style="font-size:10px;"><input type="checkbox" onchange="SoundManager.toggleSound(!this.checked)"> Mute</label>
+      </div>
+      <button onclick="SoundManager.playDing()" style="margin-top:6px; width:100%; font-size:10px;">Test Sound</button>
+    </div>
+  </div>
+
+  <!-- BATTERY INFO POPUP -->
+  <div id="dlg-battery-info" class="window dialog-modal" style="display:none; position:fixed; bottom:34px; right:4px; width:220px; z-index:94000;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/battery.png"><span>Power Meter</span></div>
+      <div class="title-bar-controls">
+        <button onclick="document.getElementById('dlg-battery-info').style.display='none'">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:8px;">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <img src="img/battery.png" style="width:32px; height:32px;">
+        <div>
+          <div style="font-weight:bold; font-size:12px;">Battery Status</div>
+          <div style="font-size:10px; color:#555;">Power source: Battery/AC</div>
+        </div>
+      </div>
+      <fieldset>
+        <legend>Power Details</legend>
+        <div style="font-size:11px; line-height:16px;">
+          • AMOLED Safe Mode: Active<br>
+          • Health: Good<br>
+          • Status: IdiotPhone Optimized
+        </div>
+      </fieldset>
+      <div class="dialog-buttons">
+        <button onclick="document.getElementById('dlg-battery-info').style.display='none'">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHUT DOWN DIALOG -->
+  <div id="dlg-shutdown" class="window dialog-modal" style="display:none; position:fixed; top:25%; left:50%; transform:translateX(-50%); width:300px; z-index:90000;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/shutdown.png"><span>Shut Down Windows</span></div>
+      <div class="title-bar-controls">
+        <button onclick="document.getElementById('dlg-shutdown').style.display='none'">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="dialog-content">
+        <img src="img/shutdown.png" alt="Shutdown">
+        <div class="dialog-text">
+          <b>What do you want the computer to do?</b>
+          <div style="margin-top:8px;">
+            <label style="display:block; margin:4px 0;"><input type="radio" name="shutdown_action" value="exit" checked> Shut down & Exit to Android (PIN required)</label>
+            <label style="display:block; margin:4px 0;"><input type="radio" name="shutdown_action" value="restart"> Restart IdiotPhone</label>
+            <label style="display:block; margin:4px 0;"><input type="radio" name="shutdown_action" value="lock"> Lock Screen</label>
+          </div>
+        </div>
+      </div>
+      <div class="dialog-buttons">
+        <button onclick="Desktop.executeShutDownAction()">OK</button>
+        <button onclick="document.getElementById('dlg-shutdown').style.display='none'">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXIT PIN PROMPT -->
+  <div id="dlg-exit-pin" class="window dialog-modal" style="display:none; position:fixed; top:25%; left:50%; transform:translateX(-50%); width:290px; z-index:91000;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/lock.png"><span>Enter Master PIN</span></div>
+      <div class="title-bar-controls">
+        <button onclick="document.getElementById('dlg-exit-pin').style.display='none'">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="dialog-content">
+        <img src="img/lock.png" alt="Lock">
+        <div class="dialog-text">
+          <b>Security Verification</b><br>
+          Enter master PIN to exit IdiotPhone:
+          <input type="password" id="exit-pin-input" style="width:100%; margin-top:6px;" autofocus>
+          <div id="exit-pin-error" style="color:red; font-size:10px; margin-top:4px;"></div>
+        </div>
+      </div>
+      <div class="dialog-buttons">
+        <button onclick="Desktop.confirmExitPin()">OK</button>
+        <button onclick="document.getElementById('dlg-exit-pin').style.display='none'">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INCOMING CALL DIALOG -->
+  <div id="dlg-incoming-call" class="window dialog-modal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); width:310px; z-index:92000;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/phone.png"><span>Incoming Phone Call</span></div>
+    </div>
+    <div class="window-body">
+      <div class="dialog-content">
+        <img src="img/phone.png" alt="Phone">
+        <div class="dialog-text">
+          <div style="font-size:14px; font-weight:bold; color:#000080;">Incoming Call</div>
+          <div id="incoming-call-number" style="font-size:16px; font-weight:bold; margin-top:6px;">Unknown</div>
+        </div>
+      </div>
+      <div class="dialog-buttons" style="justify-content:center; gap:16px;">
+        <button onclick="AppPhone.answerIncomingCall()" style="background:#c0e8c0; color:#006600; font-weight:bold; height:32px; width:100px;">📞 Answer</button>
+        <button onclick="AppPhone.declineIncomingCall()" style="background:#e8c0c0; color:#880000; font-weight:bold; height:32px; width:100px;">✕ Decline</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD CONTACT DIALOG -->
+  <div id="dlg-add-contact" class="window dialog-modal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); width:290px; z-index:85000;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/contacts.png"><span>New Contact</span></div>
+      <div class="title-bar-controls">
+        <button onclick="document.getElementById('dlg-add-contact').style.display='none'">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <fieldset>
+        <legend>Contact Details</legend>
+        <div style="margin-bottom:6px;">
+          <label>Full Name:</label>
+          <input type="text" id="add-contact-name" style="width:100%; margin-top:2px;">
+        </div>
+        <div style="margin-bottom:6px;">
+          <label>Phone Number:</label>
+          <input type="text" id="add-contact-phone" placeholder="+90..." style="width:100%; margin-top:2px;">
+        </div>
+        <div id="add-contact-error" style="color:red; font-size:11px;"></div>
+      </fieldset>
+      <div class="dialog-buttons">
+        <button onclick="AppContacts.saveNewContact()">Save</button>
+        <button onclick="document.getElementById('dlg-add-contact').style.display='none'">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SMS THREAD VIEWER DIALOG -->
+  <div id="dlg-sms-thread" class="window dialog-modal" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); width:94%; max-width:380px; height:80vh; z-index:86000;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/sms.png"><span id="sms-thread-address">SMS Conversation</span></div>
+      <div class="title-bar-controls">
+        <button onclick="document.getElementById('dlg-sms-thread').style.display='none'">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div id="sms-thread-messages" class="retro-list" style="flex:1; padding:6px; overflow-y:auto;"></div>
+      <div style="display:flex; gap:4px; padding-top:6px;">
+        <input type="text" id="sms-thread-reply-input" placeholder="Type reply..." style="flex:1;">
+        <button onclick="AppSMS.sendThreadReply()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GMAIL COMPOSE DIALOG -->
+  <div id="dlg-gmail-compose" class="window dialog-modal" style="display:none; position:fixed; top:15%; left:50%; transform:translateX(-50%); width:320px; z-index:87000;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/gmail.png"><span>New Message - Outlook Express</span></div>
+      <div class="title-bar-controls">
+        <button onclick="document.getElementById('dlg-gmail-compose').style.display='none'">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div style="margin-bottom:4px;">
+        <label>To:</label>
+        <input type="text" id="gmail-to-input" placeholder="user@example.com" style="width:100%; margin-top:2px;">
+      </div>
+      <div style="margin-bottom:4px;">
+        <label>Subject:</label>
+        <input type="text" id="gmail-subject-input" style="width:100%; margin-top:2px;">
+      </div>
+      <div style="margin-bottom:6px;">
+        <label>Message Body:</label>
+        <textarea id="gmail-body-input" rows="5" style="width:100%; margin-top:2px;"></textarea>
+      </div>
+      <div class="dialog-buttons">
+        <button onclick="AppGmail.sendEmail()">Send</button>
+        <button onclick="document.getElementById('dlg-gmail-compose').style.display='none'">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHANGE PIN DIALOG -->
+  <div id="dlg-change-pin" class="window dialog-modal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); width:290px; z-index:88000;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/lock.png"><span>Change Master PIN</span></div>
+      <div class="title-bar-controls">
+        <button onclick="document.getElementById('dlg-change-pin').style.display='none'">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <fieldset>
+        <legend>PIN Security</legend>
+        <div style="margin-bottom:4px;">
+          <label>Current PIN:</label>
+          <input type="password" id="change-pin-old" style="width:100%; margin-top:2px;">
+        </div>
+        <div style="margin-bottom:4px;">
+          <label>New PIN (min 4 digits):</label>
+          <input type="password" id="change-pin-new" style="width:100%; margin-top:2px;">
+        </div>
+        <div style="margin-bottom:4px;">
+          <label>Confirm New PIN:</label>
+          <input type="password" id="change-pin-confirm" style="width:100%; margin-top:2px;">
+        </div>
+        <div id="change-pin-error" style="color:red; font-size:10px;"></div>
+      </fieldset>
+      <div class="dialog-buttons">
+        <button onclick="AppControlPanel.saveNewPin()">Save PIN</button>
+        <button onclick="document.getElementById('dlg-change-pin').style.display='none'">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RETRO NOTIFICATION POP-UP -->
+  <div id="retro-notification" class="window">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/msg_info.png"><span>IdiotPhone Alert</span></div>
+      <div class="title-bar-controls">
+        <button onclick="document.getElementById('retro-notification').style.display='none'">✕</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="dialog-content">
+        <img src="img/msg_info.png" alt="Notification">
+        <div class="dialog-text">New notification message</div>
+      </div>
+      <div class="dialog-buttons">
+        <button id="notif-view-btn" style="display:none;">View</button>
+        <button id="notif-ok-btn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- FULLSCREEN LOCK SCREEN & SETUP WIZARD -->
+  <!-- ========================================== -->
+  <div id="lock-screen">
+    <!-- Initial Setup Wizard -->
+    <div id="lock-setup-view" class="window lock-window" style="display:none;">
+      <div class="title-bar">
+        <div class="title-bar-text"><img src="img/lock.png"><span>IdiotPhone 98 - Security Setup</span></div>
+      </div>
+      <div class="window-body">
+        <div class="dialog-content">
+          <img src="img/computer.png" alt="Setup">
+          <div class="dialog-text">
+            <b>Welcome to IdiotPhone 98!</b><br>
+            Please set a Master PIN (4 to 8 digits) to secure your phone and prevent unauthorized exit to Android:
+          </div>
+        </div>
+        <fieldset>
+          <legend>Set Master PIN</legend>
+          <div style="margin-bottom:6px;">
+            <label>Master PIN:</label>
+            <input type="password" id="setup-pin-1" placeholder="Enter PIN" style="width:100%; margin-top:2px;">
+          </div>
+          <div style="margin-bottom:6px;">
+            <label>Confirm PIN:</label>
+            <input type="password" id="setup-pin-2" placeholder="Re-enter PIN" style="width:100%; margin-top:2px;">
+          </div>
+          <div id="setup-error-msg" style="color:red; font-size:11px;"></div>
+        </fieldset>
+        <div class="dialog-buttons">
+          <button onclick="AppLockScreen.submitSetupPin()" style="font-weight:bold; height:28px;">Complete Setup & Start</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Normal Win98 Logon Dialog -->
+    <div id="lock-logon-view" class="window lock-window" style="display:none;">
+      <div class="title-bar">
+        <div class="title-bar-text"><img src="img/lock.png"><span>Welcome to Windows</span></div>
+      </div>
+      <div class="window-body">
+        <div class="dialog-content">
+          <img src="img/computer.png" alt="Logon">
+          <div class="dialog-text">
+            Type a user name and password to log on to <b>IdiotPhone 98</b>.
+          </div>
+        </div>
+        <fieldset>
+          <legend>Logon Credentials</legend>
+          <div style="margin-bottom:4px; display:flex; align-items:center;">
+            <label style="width:80px;">User name:</label>
+            <input type="text" value="User" disabled style="flex:1; background:#dfdfdf;">
+          </div>
+          <div style="margin-bottom:4px; display:flex; align-items:center;">
+            <label style="width:80px;">Password:</label>
+            <input type="password" id="logon-pin-input" placeholder="PIN" style="flex:1;">
+          </div>
+          <div id="logon-error-msg" style="color:red; font-size:11px; margin-top:4px;"></div>
+        </fieldset>
+
+        <!-- Touch keypad for quick mobile unlock -->
+        <div class="pin-keypad">
+          <button onclick="AppLockScreen.pressKey('1', 'logon-pin-input')">1</button>
+          <button onclick="AppLockScreen.pressKey('2', 'logon-pin-input')">2</button>
+          <button onclick="AppLockScreen.pressKey('3', 'logon-pin-input')">3</button>
+          <button onclick="AppLockScreen.pressKey('4', 'logon-pin-input')">4</button>
+          <button onclick="AppLockScreen.pressKey('5', 'logon-pin-input')">5</button>
+          <button onclick="AppLockScreen.pressKey('6', 'logon-pin-input')">6</button>
+          <button onclick="AppLockScreen.pressKey('7', 'logon-pin-input')">7</button>
+          <button onclick="AppLockScreen.pressKey('8', 'logon-pin-input')">8</button>
+          <button onclick="AppLockScreen.pressKey('9', 'logon-pin-input')">9</button>
+          <button onclick="AppLockScreen.pressKey('CLEAR', 'logon-pin-input')" style="font-size:11px;">Clear</button>
+          <button onclick="AppLockScreen.pressKey('0', 'logon-pin-input')">0</button>
+          <button onclick="AppLockScreen.pressKey('BACK', 'logon-pin-input')" style="font-size:11px;">⌫</button>
+        </div>
+
+        <div class="dialog-buttons" style="margin-top:8px; display:flex; justify-content:space-between; align-items:center;">
+          <button type="button" onclick="AppLockScreen.openEmergencySOS()" style="color:#b00000; font-weight:bold; height:28px;">🚨 SOS Emergency</button>
+          <button onclick="AppLockScreen.submitLogon()" style="font-weight:bold; height:28px; width:80px;">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/sound-manager.js"></script>
+  <script src="js/win98-desktop.js"></script>
+  <script src="js/app-lockscreen.js"></script>
+  <script src="js/app-phone.js"></script>
+  <script src="js/app-contacts.js"></script>
+  <script src="js/app-sms.js"></script>
+  <script src="js/app-whatsapp.js"></script>
+  <script src="js/app-gmail.js"></script>
+  <script src="js/app-maps.js"></script>
+  <script src="js/app-calc.js"></script>
+  <script src="js/app-notepad.js"></script>
+  <script src="js/app-recorder.js"></script>
+  <script src="js/app-screensaver.js"></script>
+  <script src="js/app-controlpanel.js"></script>
+
+  <!-- 10 New Modules -->
+  <script src="js/app-torch.js"></script>
+  <script src="js/app-emergency.js"></script>
+  <script src="js/app-alarm.js"></script>
+  <script src="js/app-focus.js"></script>
+  <script src="js/app-minesweeper.js"></script>
+  <script src="js/app-cleanmgr.js"></script>
+  <script src="js/app-shortcuts.js"></script>
+  <script src="js/app-volume.js"></script>
+  <script src="js/app-backup.js"></script>
+  <script src="js/app-dxdiag.js"></script>
+</body>
+</html>
