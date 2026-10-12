@@ -36,8 +36,8 @@ To exit the launcher and access standard Android apps or settings, the user **mu
 
 Pre-compiled, release-signed with both V1 (JAR) and V2 (Full APK) schemes, and ready for instant installation on Android (optimized for **Redmi / Xiaomi / HyperOS / MIUI**):
 
-* 🚀 **[Download IdiotPhone.apk (Direct APK Download)](https://github.com/cerogamedev/IdiotPhone/releases/download/v1.1.0/IdiotPhone.apk)**
-* 🏷️ **[GitHub Releases Page (v1.1.0)](https://github.com/cerogamedev/IdiotPhone/releases/latest)**
+* 🚀 **[Download IdiotPhone.apk (Direct APK Download v1.1.1)](https://github.com/cerogamedev/IdiotPhone/releases/download/v1.1.1/IdiotPhone.apk)**
+* 🏷️ **[GitHub Releases Page (v1.1.1 Latest)](https://github.com/cerogamedev/IdiotPhone/releases/latest)**
 * 📁 **[Repository File Link](./IdiotPhone.apk)**
 
 > 💡 **Important for Xiaomi / Redmi:** If you previously installed an older test build, please **uninstall the old version first** (`Settings > Apps > Manage Apps > IdiotPhone > Uninstall`) before installing this release build to prevent signature conflict errors.
@@ -115,6 +115,36 @@ flowchart TD
 4. **Exiting Kiosk Mode**:
    - Go to **Start > Shut Down... > Shut down & Exit to Android**.
    - Enter your Master PIN to return to standard Android.
+
+---
+
+## 🛡️ Google Play Protect & "App Not Installed" Troubleshooting
+
+Because **IdiotPhone 98** is an open-source sideloaded launcher containing system-level Phone, SMS, and Location integrations, **Google Play Protect** may show a warning dialog upon installation (*"Blocked by Play Protect"* / *"Zararlı olabilecek uygulama engellendi"*).
+
+If you simply tap **"OK" ("Tamam")**, Android cancels the installation and displays *"App not installed"* (*"Uygulama yüklenemedi"*).
+
+### ✅ How to bypass Play Protect:
+
+#### Option 1: One-Tap Bypass on Install Screen (Recommended)
+1. When the Play Protect warning window appears, **DO NOT TAP "OK" / "TAMAM"**.
+2. Tap the small text: **"More details"** (in Turkish: **"Daha fazla ayrıntı"** or **"Ayrıntılar ⌄"**).
+3. Tap **"Install anyway (unsafe)"** (in Turkish: **"Yine de yükle (güvenli değil)"**).
+4. The application will immediately install successfully.
+
+#### Option 2: Temporarily Disable Play Protect Scanning
+If your device does not show the "Install anyway" option:
+1. Open the **Google Play Store** app.
+2. Tap your **Profile Icon** in the top right corner > select **Play Protect**.
+3. Tap the **Settings gear icon (⚙️)** in the top right.
+4. Toggle OFF **"Scan apps with Play Protect"** (*"Uygulamaları Play Protect ile tara"*).
+5. Install `IdiotPhone.apk` (it will install immediately without any block).
+6. Once installed, you can re-enable Play Protect scanning.
+
+#### Option 3: Signature Conflict Fix
+If you previously installed an older test build:
+- Go to **Settings > Apps > Manage Apps > IdiotPhone > Uninstall** first.
+- Then install the new `v1.1.1` release APK to prevent `INSTALL_FAILED_UPDATE_INCOMPATIBLE` signature conflicts.
 
 ---
 
