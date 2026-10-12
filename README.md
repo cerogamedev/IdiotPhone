@@ -34,9 +34,11 @@ To exit the launcher and access standard Android apps or settings, the user **mu
 
 ## 📦 Download Ready APK
 
-Pre-compiled, signed, and ready for instant installation on Android (optimized for **Redmi / Xiaomi / HyperOS / MIUI**):
+Pre-compiled, release-signed with both V1 (JAR) and V2 (Full APK) schemes, and ready for instant installation on Android (optimized for **Redmi / Xiaomi / HyperOS / MIUI**):
 
-👉 **[Download IdiotPhone-v1.0.0.apk (3.7 MB)](./IdiotPhone-v1.0.0.apk)**
+👉 **[Download IdiotPhone.apk (2.9 MB)](./IdiotPhone.apk)**
+
+> 💡 **Important for Xiaomi / Redmi:** If you previously installed an older test build, please **uninstall the old version first** (`Settings > Apps > IdiotPhone > Uninstall`) before installing this release build to prevent signature conflict errors.
 
 ---
 
