@@ -99,6 +99,12 @@ public class AndroidBridge {
     public void exitToAndroid(String pin) {
         if (verifyPin(pin)) {
             activity.runOnUiThread(() -> {
+                activity.allowTemporaryExit();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    try {
+                        activity.stopLockTask();
+                    } catch (Exception ignored) {}
+                }
                 try {
                     Intent intent = new Intent(Intent.ACTION_MAIN);
                     intent.addCategory(Intent.CATEGORY_HOME);
@@ -122,6 +128,7 @@ public class AndroidBridge {
     public void openAndroidSettings(String pin) {
         if (verifyPin(pin)) {
             activity.runOnUiThread(() -> {
+                activity.allowTemporaryExit();
                 try {
                     Intent intent = new Intent(Settings.ACTION_SETTINGS);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -131,6 +138,94 @@ public class AndroidBridge {
                 }
             });
         }
+    }
+
+    @JavascriptInterface
+    public boolean isDefaultLauncher() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            PackageManager pm = activity.getPackageManager();
+            android.content.pm.ResolveInfo resolveInfo = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            if (resolveInfo != null && resolveInfo.activityInfo != null) {
+                return activity.getPackageName().equals(resolveInfo.activityInfo.packageName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @JavascriptInterface
+    public void promptSetDefaultLauncher() {
+        activity.runOnUiThread(() -> {
+            activity.allowTemporaryExit();
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    android.app.role.RoleManager roleManager = (android.app.role.RoleManager) activity.getSystemService(Context.ROLE_SERVICE);
+                    if (roleManager != null && roleManager.isRoleAvailable(android.app.role.RoleManager.ROLE_HOME)) {
+                        Intent intent = roleManager.createRequestRoleIntent(android.app.role.RoleManager.ROLE_HOME);
+                        activity.startActivity(intent);
+                        return;
+                    }
+                }
+                Intent intent = new Intent(Settings.ACTION_HOME_SETTINGS);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
+            } catch (Exception e) {
+                try {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intent);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void startKioskPinning() {
+        activity.runOnUiThread(() -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                try {
+                    activity.startLockTask();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void stopKioskPinning(String pin) {
+        if (verifyPin(pin)) {
+            activity.runOnUiThread(() -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    try {
+                        activity.stopLockTask();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
+    @JavascriptInterface
+    public boolean isKioskPinned() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityManager am = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
+            if (am != null) {
+                return am.getLockTaskModeState() != ActivityManager.LOCK_TASK_MODE_NONE;
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityManager am = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
+            if (am != null) {
+                return am.isInLockTaskMode();
+            }
+        }
+        return false;
     }
 
     // ==========================================
@@ -253,6 +348,7 @@ public class AndroidBridge {
         if (phoneNumber == null || phoneNumber.trim().isEmpty()) return;
         final String cleanNumber = phoneNumber.replaceAll("[^0-9+*#]", "");
         activity.runOnUiThread(() -> {
+            activity.allowTemporaryExit();
             try {
                 Intent intent;
                 Uri telUri = Uri.fromParts("tel", cleanNumber, null);
@@ -267,6 +363,11 @@ public class AndroidBridge {
                 e.printStackTrace();
             }
         });
+    }
+
+    @JavascriptInterface
+    public void makePhoneCall(String phoneNumber) {
+        makeCall(phoneNumber);
     }
 
     @JavascriptInterface
@@ -518,6 +619,7 @@ public class AndroidBridge {
 
     @JavascriptInterface
     public boolean openWhatsAppDirect(String phone, String text) {
+        activity.allowTemporaryExit();
         try {
             String cleanPhone = phone.replaceAll("[^0-9]", "");
             String url = "https://api.whatsapp.com/send?phone=" + cleanPhone + "&text=" + URLEncoder.encode(text, "UTF-8");

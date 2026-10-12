@@ -68,10 +68,10 @@ const AppShortcuts = {
                 window.AndroidBridge.makePhoneCall(sc.number);
             }
         } else if (choice === '2') {
-            if (window.Desktop) Desktop.openWindow('window-sms');
+            if (window.Desktop) Desktop.openWindow('win-sms');
             if (window.AppSMS && AppSMS.openCompose) AppSMS.openCompose(sc.number);
         } else if (choice === '3') {
-            if (window.Desktop) Desktop.openWindow('window-whatsapp');
+            if (window.Desktop) Desktop.openWindow('win-whatsapp');
             if (window.AppWhatsApp && AppWhatsApp.selectContact) AppWhatsApp.selectContact(sc.name, sc.number);
         } else if (choice === '4') {
             this.removeShortcut(id);

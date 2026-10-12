@@ -175,6 +175,38 @@ const AppControlPanel = {
       SoundManager.playChord();
       alert("Invalid Master PIN. Access Denied.");
     }
+  },
+
+  promptSetDefaultLauncher() {
+    SoundManager.playClick();
+    if (window.AndroidBridge) {
+      window.AndroidBridge.promptSetDefaultLauncher();
+    } else {
+      alert("Running in web preview mode. Default launcher is set on Android devices.");
+    }
+  },
+
+  toggleKioskPinning() {
+    SoundManager.playClick();
+    if (!window.AndroidBridge) {
+      alert("App Pinning (Lock Task) is supported on Android devices.");
+      return;
+    }
+    const isPinned = window.AndroidBridge.isKioskPinned();
+    if (!isPinned) {
+      if (confirm("Enable Android Screen Pinning (Lock Task Mode)?\nThis locks your device into IdiotPhone so Home, Recents, and Status Bar notifications are completely restricted at OS level.")) {
+        window.AndroidBridge.startKioskPinning();
+      }
+    } else {
+      const pin = prompt("Enter Master PIN to unpin device / exit Kiosk mode:");
+      if (pin && window.AndroidBridge.verifyPin(pin)) {
+        window.AndroidBridge.stopKioskPinning(pin);
+        Desktop.showRetroNotification("Kiosk Mode", "Device unpinned.", "info");
+      } else if (pin) {
+        SoundManager.playChord();
+        alert("Invalid PIN. Access denied.");
+      }
+    }
   }
 };
 

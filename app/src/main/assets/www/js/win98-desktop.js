@@ -21,6 +21,11 @@ const Desktop = {
     if (window.AppVolume) AppVolume.init();
     if (window.AppBackup) AppBackup.init();
     if (window.AppDxDiag) AppDxDiag.init();
+    if (window.AppMediaPlayer) AppMediaPlayer.init();
+    if (window.AppConverter) AppConverter.init();
+    if (window.AppStickyNote) AppStickyNote.init();
+    if (window.AppHabits) AppHabits.init();
+    if (window.AppSearch) AppSearch.init();
   },
 
   // ==========================================
@@ -129,6 +134,9 @@ const Desktop = {
     if (id === 'win-cleanmgr' && window.AppCleanmgr) AppCleanmgr.scanStorage();
     if (id === 'win-volume' && window.AppVolume) AppVolume.syncWithNative();
     if (id === 'win-dxdiag' && window.AppDxDiag) AppDxDiag.loadDiagnostics();
+    if (id === 'win-mediaplayer' && window.AppMediaPlayer) AppMediaPlayer.renderTrackList();
+    if (id === 'win-habits' && window.AppHabits) AppHabits.renderUI();
+    if (id === 'win-search' && window.AppSearch) AppSearch.search('');
 
     // Add or update taskbar button
     this.updateTaskbar();
@@ -136,12 +144,12 @@ const Desktop = {
   },
 
   centerWindow(win) {
-    const isMobile = window.innerWidth < 600;
+    const isMobile = window.innerWidth < 650;
     if (isMobile) {
-      win.style.left = "4px";
-      win.style.top = "6px";
-      win.style.width = "calc(100vw - 8px)";
-      win.style.height = "calc(100vh - 42px)";
+      win.style.left = "0px";
+      win.style.top = "0px";
+      win.style.width = "100vw";
+      win.style.height = "calc(100vh - 34px)";
     } else {
       win.style.left = "30px";
       win.style.top = "30px";
@@ -437,6 +445,9 @@ const Desktop = {
     if (action === "lock") {
       dlg.style.display = "none";
       if (window.AppLockScreen) window.AppLockScreen.show();
+    } else if (action === "launcher") {
+      dlg.style.display = "none";
+      if (window.AppControlPanel) window.AppControlPanel.promptSetDefaultLauncher();
     } else if (action === "restart") {
       dlg.style.display = "none";
       location.reload();
@@ -526,7 +537,12 @@ const Desktop = {
       "cleanmgr": "win-cleanmgr", "cleanup": "win-cleanmgr",
       "volume": "win-volume", "mixer": "win-volume", "sndvol32": "win-volume",
       "backup": "win-backup", "regedit": "win-backup",
-      "dxdiag": "win-dxdiag"
+      "dxdiag": "win-dxdiag",
+      "mplayer": "win-mediaplayer", "wmplayer": "win-mediaplayer", "music": "win-mediaplayer", "media": "win-mediaplayer",
+      "convert": "win-converter", "converter": "win-converter",
+      "sticky": "win-stickynote", "stickynote": "win-stickynote", "postit": "win-stickynote",
+      "habits": "win-habits", "routine": "win-habits", "todo": "win-habits",
+      "find": "win-search", "search": "win-search"
     };
 
     if (cmd === "lock") {

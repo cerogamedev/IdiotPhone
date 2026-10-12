@@ -51,6 +51,54 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver screenOffReceiver;
     private BroadcastReceiver batteryReceiver;
 
+    // Kiosk Mode & Inescapable Launcher
+    private boolean isKioskLocked = true;
+    private boolean temporaryExitAllowed = false;
+
+    public void allowTemporaryExit() {
+        this.temporaryExitAllowed = true;
+    }
+
+    public void setKioskLocked(boolean locked) {
+        this.isKioskLocked = locked;
+    }
+
+    public boolean isKioskLocked() {
+        return this.isKioskLocked;
+    }
+
+    public void applyImmersiveSticky() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            );
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            applyImmersiveSticky();
+        }
+    }
+
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        if (isKioskLocked && !temporaryExitAllowed) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+        }
+    }
+
     public static MainActivity getInstance() {
         return instance;
     }
@@ -68,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
             window.setStatusBarColor(0xFF008080); // Win98 Teal
             window.setNavigationBarColor(0xFFC0C0C0); // Win98 Gray
         }
+
+        applyImmersiveSticky();
 
         setContentView(R.layout.activity_main);
         webView = findViewById(R.id.webview);
@@ -286,6 +336,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        temporaryExitAllowed = false;
+        applyImmersiveSticky();
         if (webView != null) {
             webView.evaluateJavascript("window.onDeviceResume && window.onDeviceResume();", null);
             if (isScreenLocked) {

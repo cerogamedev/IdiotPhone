@@ -62,6 +62,7 @@ const AppScreensaver = {
     if (this.active) return;
     this.active = true;
     this.canvas.style.display = "block";
+    this.canvas.style.pointerEvents = "auto";
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     this.initStars();
@@ -73,6 +74,7 @@ const AppScreensaver = {
     this.active = false;
     cancelAnimationFrame(this.animId);
     this.canvas.style.display = "none";
+    this.canvas.style.pointerEvents = "none";
     this.resetTimer();
   },
 

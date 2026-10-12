@@ -79,12 +79,42 @@
         <img src="img/sos.png" alt="Emergency">
         <span>Emergency SOS</span>
       </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-mediaplayer')">
+        <img src="img/media_player.png" alt="Media Player">
+        <span>Media Player</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-converter')">
+        <img src="img/converter.png" alt="Converter">
+        <span>Converter 98</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-stickynote')">
+        <img src="img/stickynote.png" alt="Sticky Note">
+        <span>Sticky Note</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-habits')">
+        <img src="img/habits.png" alt="Habits">
+        <span>Habits 98</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-search')">
+        <img src="img/search.png" alt="Find">
+        <span>Find 98</span>
+      </div>
       <div class="desktop-icon" onclick="AppLockScreen.show()">
         <img src="img/lock.png" alt="Lock">
         <span>Lock Phone</span>
       </div>
     </div>
-    <div id="desktop-shortcuts-container" class="desktop-icons" style="margin-top: 10px;"></div>
+
+    <!-- Pinned Sticky Note Desktop Memo -->
+    <div id="desktop-pinned-stickynote" style="display:none; margin: 10px 10px 14px 10px; background: #fff8a6; border: 1px solid #d4c870; box-shadow: 2px 2px 6px rgba(0,0,0,0.4); padding: 8px 10px; font-family: monospace; font-size: 13px; color: #222; transform: rotate(-0.5deg); cursor: pointer;" onclick="Desktop.openWindow('win-stickynote')">
+      <div style="font-weight:bold; font-size:11px; color:#666; border-bottom:1px dashed #d4c870; padding-bottom:3px; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center;">
+        <span>📌 STICKY MEMO 98</span>
+        <span onclick="event.stopPropagation(); AppStickyNote.unpinFromDesktop();" style="font-size:12px; font-weight:bold; padding:0 4px;">✕</span>
+      </div>
+      <div id="desktop-stickynote-preview" style="white-space:pre-wrap; max-height:120px; overflow:hidden; font-size:12px; line-height:16px;"></div>
+    </div>
+
+    <div id="desktop-shortcuts-container"></div>
   </div>
 
   <!-- ========================================== -->
@@ -180,6 +210,26 @@
       <div class="start-item" onclick="Desktop.openWindow('win-backup')">
         <img src="img/regedit.png" alt="Backup">
         <span>Registry Backup Wizard</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-mediaplayer')">
+        <img src="img/media_player.png" alt="Media Player">
+        <span>Windows Media Player</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-converter')">
+        <img src="img/converter.png" alt="Converter">
+        <span>Unit & Currency Converter</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-stickynote')">
+        <img src="img/stickynote.png" alt="Sticky Note">
+        <span>Desktop Sticky Notes</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-habits')">
+        <img src="img/habits.png" alt="Habits">
+        <span>Habits & Routine 98</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-search')">
+        <img src="img/search.png" alt="Find">
+        <span>Find Files or Apps...</span>
       </div>
       <div class="start-item" onclick="Desktop.openWindow('win-emergency')">
         <img src="img/sos.png" alt="SOS">
@@ -602,14 +652,18 @@
       </fieldset>
 
       <fieldset>
-        <legend>Android System</legend>
+        <legend>Kiosk & Android System</legend>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
           <span id="setting-permissions-status">Checking permissions...</span>
           <button onclick="AppControlPanel.requestPermissions()">Permissions</button>
         </div>
+        <div style="display:flex; gap:6px; margin-bottom:6px;">
+          <button onclick="AppControlPanel.promptSetDefaultLauncher()" style="flex:1; font-weight:bold;">🏠 Set as Default Home Launcher</button>
+          <button onclick="AppControlPanel.toggleKioskPinning()" style="flex:1;">📌 Screen Pinning (Lock Task)</button>
+        </div>
         <div style="display:flex; gap:6px;">
           <button onclick="AppControlPanel.openAndroidSettingsPrompt()" style="flex:1;">Android Settings (PIN)</button>
-          <button onclick="Desktop.promptExitPin()" style="flex:1; color:red;">Exit IdiotPhone</button>
+          <button onclick="Desktop.promptExitPin()" style="flex:1; color:#a00000; font-weight:bold;">Exit IdiotPhone (PIN)</button>
         </div>
       </fieldset>
 
@@ -938,6 +992,181 @@
     </div>
   </div>
 
+  <!-- 20. WINDOWS MEDIA PLAYER 98 -->
+  <div id="win-mediaplayer" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/media_player.png"><span>Windows Media Player 98</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-mediaplayer')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-mediaplayer')">口</button>
+        <button onclick="Desktop.closeWindow('win-mediaplayer'); AppMediaPlayer.stop();">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:6px; display:flex; flex-direction:column; gap:6px;">
+      <!-- Retro Visualizer Display -->
+      <div style="background:#000; border:2px inset #dfdfdf; padding:4px; text-align:center;">
+        <div id="media-now-playing" style="color:#00ff00; font-family:monospace; font-size:12px; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Lofi Rain &amp; Thunder.wav</div>
+        <canvas id="media-visualizer-canvas" width="300" height="85" style="width:100%; height:85px; background:#000; display:block;"></canvas>
+      </div>
+
+      <!-- Playback Controls -->
+      <div style="display:flex; align-items:center; gap:6px; background:#c0c0c0; padding:4px;">
+        <button id="media-btn-play" onclick="AppMediaPlayer.isPlaying ? AppMediaPlayer.pause() : AppMediaPlayer.play()" style="min-width:38px; height:28px; font-weight:bold;">▶</button>
+        <button onclick="AppMediaPlayer.stop()" style="min-width:38px; height:28px;">■</button>
+        <button onclick="AppMediaPlayer.openFilePicker()" style="font-size:11px; height:28px;">📂 Open...</button>
+        <div style="flex:1; display:flex; align-items:center; gap:4px; margin-left:6px;">
+          <span style="font-size:10px;">Vol:</span>
+          <input type="range" min="0" max="1" step="0.05" value="0.8" style="width:100%;" oninput="AppMediaPlayer.setVolume(this.value)">
+        </div>
+      </div>
+
+      <!-- Playlist -->
+      <fieldset style="flex:1; display:flex; flex-direction:column; min-height:120px;">
+        <legend>Playlist &amp; Offline Ambient Tracks</legend>
+        <div id="media-playlist" class="retro-list" style="flex:1; max-height:160px; overflow-y:auto;"></div>
+      </fieldset>
+    </div>
+  </div>
+
+  <!-- 21. UNIT & CURRENCY CONVERTER 98 -->
+  <div id="win-converter" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/converter.png"><span>Converter 98</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-converter')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-converter')">口</button>
+        <button onclick="Desktop.closeWindow('win-converter')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:6px;">
+      <ul id="converter-tabs" class="tabs">
+        <li id="converter-tab-length" class="tab active" onclick="AppConverter.setCategory('length')">Length</li>
+        <li id="converter-tab-weight" class="tab" onclick="AppConverter.setCategory('weight')">Weight</li>
+        <li id="converter-tab-temperature" class="tab" onclick="AppConverter.setCategory('temperature')">Temp</li>
+        <li id="converter-tab-data" class="tab" onclick="AppConverter.setCategory('data')">Data</li>
+        <li id="converter-tab-currency" class="tab" onclick="AppConverter.setCategory('currency')">Currency</li>
+      </ul>
+      <div class="tab-content" style="padding:10px 6px;">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div>
+            <label style="font-size:11px; font-weight:bold; display:block; margin-bottom:2px;">From:</label>
+            <div style="display:flex; gap:6px;">
+              <input type="number" id="converter-input-val" value="1" style="flex:1;" oninput="AppConverter.convert()">
+              <select id="converter-from-unit" style="flex:1;" onchange="AppConverter.convert()"></select>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <button onclick="AppConverter.swap()" style="min-width:60px; height:24px; font-size:11px;">⇅ Swap</button>
+          </div>
+          <div>
+            <label style="font-size:11px; font-weight:bold; display:block; margin-bottom:2px;">To (Result):</label>
+            <div style="display:flex; gap:6px;">
+              <input type="number" id="converter-output-val" readonly style="flex:1; background:#dfdfdf; font-weight:bold;">
+              <select id="converter-to-unit" style="flex:1;" onchange="AppConverter.convert()"></select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 22. DESKTOP STICKY NOTES 98 -->
+  <div id="win-stickynote" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/stickynote.png"><span>Sticky Notes 98</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-stickynote')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-stickynote')">口</button>
+        <button onclick="Desktop.closeWindow('win-stickynote')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:6px; display:flex; flex-direction:column; gap:6px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; gap:4px; align-items:center;">
+          <span style="font-size:11px;">Color:</span>
+          <button style="width:20px; height:20px; background:#fff8a6; border:1px solid #999; padding:0;" onclick="AppStickyNote.setColor('#fff8a6')"></button>
+          <button style="width:20px; height:20px; background:#c6f4a8; border:1px solid #999; padding:0;" onclick="AppStickyNote.setColor('#c6f4a8')"></button>
+          <button style="width:20px; height:20px; background:#b4e1fa; border:1px solid #999; padding:0;" onclick="AppStickyNote.setColor('#b4e1fa')"></button>
+          <button style="width:20px; height:20px; background:#f7c6d9; border:1px solid #999; padding:0;" onclick="AppStickyNote.setColor('#f7c6d9')"></button>
+        </div>
+        <div style="display:flex; gap:4px;">
+          <button onclick="AppStickyNote.togglePinDesktop()" style="font-size:10px;">📌 Pin to Desktop</button>
+          <button onclick="AppStickyNote.clearNote()" style="font-size:10px;">Clear</button>
+        </div>
+      </div>
+      <textarea id="stickynote-text" style="flex:1; width:100%; min-height:220px; border:1px solid #999; padding:8px; font-family:monospace; font-size:14px; box-sizing:border-box; outline:none; resize:none;" oninput="AppStickyNote.saveNote()"></textarea>
+      <div style="font-size:10px; color:#555; text-align:right;">Auto-saved to memory</div>
+    </div>
+  </div>
+
+  <!-- 23. HABITS & ROUTINE TRACKER 98 -->
+  <div id="win-habits" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/habits.png"><span>Habit &amp; Routine Tracker 98</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-habits')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-habits')">口</button>
+        <button onclick="Desktop.closeWindow('win-habits')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:6px; display:flex; flex-direction:column; gap:6px;">
+      <!-- Streak Banner -->
+      <div style="display:flex; justify-content:space-between; align-items:center; background:#000080; color:#fff; padding:6px 10px;">
+        <span style="font-weight:bold; font-size:12px;">Daily Dumbphone Routine</span>
+        <span id="habits-streak-count" style="font-weight:bold; font-size:12px; color:#ff0;">0 days 🔥</span>
+      </div>
+
+      <!-- Progress Bar -->
+      <div>
+        <div style="display:flex; justify-content:space-between; font-size:10px; margin-bottom:2px;">
+          <span>Today's Progress:</span>
+          <span id="habits-progress-text">0/0 completed</span>
+        </div>
+        <div style="height:14px; background:#dfdfdf; border:1px inset #808080; overflow:hidden;">
+          <div id="habits-progress-bar" style="height:100%; width:0%; background:#008080; transition:width 0.2s;"></div>
+        </div>
+      </div>
+
+      <!-- Habits Checklist -->
+      <fieldset style="flex:1; display:flex; flex-direction:column; min-height:160px;">
+        <legend>Today's Habits</legend>
+        <div id="habits-list" class="retro-list" style="flex:1; max-height:220px; overflow-y:auto;"></div>
+      </fieldset>
+
+      <!-- Add New Habit -->
+      <div style="display:flex; gap:6px;">
+        <input type="text" id="habits-new-input" placeholder="New habit (e.g. Meditate 10m)..." style="flex:1;" onkeypress="if(event.key==='Enter') AppHabits.addHabit()">
+        <button onclick="AppHabits.addHabit()" style="min-width:50px;">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 24. UNIVERSAL FIND & SEARCH 98 -->
+  <div id="win-search" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/search.png"><span>Find: All Files or Apps</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-search')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-search')">口</button>
+        <button onclick="Desktop.closeWindow('win-search')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:6px; display:flex; flex-direction:column; gap:6px;">
+      <div style="display:flex; align-items:center; gap:6px; background:#c0c0c0; padding:4px;">
+        <label style="font-size:11px; font-weight:bold;">Named:</label>
+        <input type="text" id="search-query-input" placeholder="Type to search apps, contacts, notes..." style="flex:1;">
+        <button onclick="AppSearch.search(document.getElementById('search-query-input').value)" style="min-width:60px;">Find Now</button>
+      </div>
+
+      <fieldset style="flex:1; display:flex; flex-direction:column; min-height:200px;">
+        <legend>Matching Items</legend>
+        <div id="search-results-list" class="retro-list" style="flex:1; max-height:260px; overflow-y:auto;"></div>
+      </fieldset>
+
+      <div id="search-status-bar" style="font-size:10px; color:#555; border-top:1px solid #808080; padding-top:3px;">0 object(s) found.</div>
+    </div>
+  </div>
+
   <!-- ========================================== -->
   <!-- MODALS & DIALOGS -->
   <!-- ========================================== -->
@@ -1030,7 +1259,8 @@
         <div class="dialog-text">
           <b>What do you want the computer to do?</b>
           <div style="margin-top:8px;">
-            <label style="display:block; margin:4px 0;"><input type="radio" name="shutdown_action" value="exit" checked> Shut down & Exit to Android (PIN required)</label>
+            <label style="display:block; margin:4px 0;"><input type="radio" name="shutdown_action" value="exit" checked> Shut down &amp; Exit to Android (PIN required)</label>
+            <label style="display:block; margin:4px 0;"><input type="radio" name="shutdown_action" value="launcher"> Set as Default Home Launcher</label>
             <label style="display:block; margin:4px 0;"><input type="radio" name="shutdown_action" value="restart"> Restart IdiotPhone</label>
             <label style="display:block; margin:4px 0;"><input type="radio" name="shutdown_action" value="lock"> Lock Screen</label>
           </div>
@@ -1324,5 +1554,12 @@
   <script src="js/app-volume.js"></script>
   <script src="js/app-backup.js"></script>
   <script src="js/app-dxdiag.js"></script>
+
+  <!-- 5 New Modules (Total 25 Utilities) -->
+  <script src="js/app-mediaplayer.js"></script>
+  <script src="js/app-converter.js"></script>
+  <script src="js/app-stickynote.js"></script>
+  <script src="js/app-habits.js"></script>
+  <script src="js/app-search.js"></script>
 </body>
 </html>
