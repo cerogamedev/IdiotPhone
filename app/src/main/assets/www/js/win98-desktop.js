@@ -126,6 +126,10 @@ const Desktop = {
     }
 
     // Module lifecycle triggers
+    if (id === 'win-contacts' && window.AppContacts) AppContacts.loadContacts();
+    if (id === 'win-whatsapp' && window.AppWhatsApp) AppWhatsApp.loadConversations();
+    if (id === 'win-phone' && window.AppPhone) AppPhone.loadCallLog();
+    if (id === 'win-sms' && window.AppSMS) AppSMS.loadInbox();
     if (id === 'win-torch' && window.AppTorch) AppTorch.updateState();
     if (id === 'win-emergency' && window.AppEmergency) AppEmergency.renderIceInfo();
     if (id === 'win-alarm' && window.AppAlarm) AppAlarm.renderAlarmsList();
@@ -137,6 +141,9 @@ const Desktop = {
     if (id === 'win-mediaplayer' && window.AppMediaPlayer) AppMediaPlayer.renderTrackList();
     if (id === 'win-habits' && window.AppHabits) AppHabits.renderUI();
     if (id === 'win-search' && window.AppSearch) AppSearch.search('');
+    if (id === 'win-solitaire' && window.AppSolitaire) AppSolitaire.render();
+    if (id === 'win-snake' && window.AppSnake) AppSnake.resetGame();
+    if (id === 'win-brickbreaker' && window.AppBrickBreaker) AppBrickBreaker.resetGame();
 
     // Add or update taskbar button
     this.updateTaskbar();
@@ -166,6 +173,8 @@ const Desktop = {
     if (this.activeWindow === win) {
       this.activeWindow = null;
     }
+    if (id === 'win-snake' && window.AppSnake) AppSnake.isPaused = true;
+    if (id === 'win-brickbreaker' && window.AppBrickBreaker) AppBrickBreaker.isRunning = false;
     this.updateTaskbar();
   },
 
@@ -345,9 +354,20 @@ const Desktop = {
   initGlobalEvents() {
     // Back Button Handler
     window.onBackPressed = () => {
+      // If locked, completely ignore back button to prevent escape
+      if (window.AppLockScreen && window.AppLockScreen.isLocked) {
+        return;
+      }
+
       const startMenu = document.getElementById("start-menu");
       if (startMenu && startMenu.classList.contains("open")) {
         this.closeStartMenu();
+        return;
+      }
+
+      // If inside WhatsApp conversation thread, go back to chats list
+      if (this.activeWindow && this.activeWindow.id === 'win-whatsapp' && window.AppWhatsApp && window.AppWhatsApp.currentChat) {
+        window.AppWhatsApp.backToChatsList();
         return;
       }
 
@@ -542,7 +562,10 @@ const Desktop = {
       "convert": "win-converter", "converter": "win-converter",
       "sticky": "win-stickynote", "stickynote": "win-stickynote", "postit": "win-stickynote",
       "habits": "win-habits", "routine": "win-habits", "todo": "win-habits",
-      "find": "win-search", "search": "win-search"
+      "find": "win-search", "search": "win-search",
+      "solitaire": "win-solitaire", "sol": "win-solitaire", "klondike": "win-solitaire",
+      "snake": "win-snake",
+      "brick": "win-brickbreaker", "brickbreaker": "win-brickbreaker", "dxball": "win-brickbreaker", "arkanoid": "win-brickbreaker"
     };
 
     if (cmd === "lock") {

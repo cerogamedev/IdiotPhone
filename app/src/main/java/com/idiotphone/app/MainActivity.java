@@ -2,6 +2,7 @@ package com.idiotphone.app;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,8 @@ import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -46,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView retroBrowserTitle;
     private WebView retroBrowserWebView;
 
-    // Screen Lock State Tracking
+    // Screen Lock & Receivers
     private boolean isScreenLocked = false;
-    private BroadcastReceiver screenOffReceiver;
+    private BroadcastReceiver screenReceiver;
     private BroadcastReceiver batteryReceiver;
 
     // Kiosk Mode & Inescapable Launcher
@@ -81,6 +84,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void dismissKeyguardIfPossible() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+            if (km != null) {
+                km.requestDismissKeyguard(this, null);
+            }
+        }
+    }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -94,8 +106,25 @@ public class MainActivity extends AppCompatActivity {
         super.onUserLeaveHint();
         if (isKioskLocked && !temporaryExitAllowed) {
             Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Aggressive kiosk recapture: bring right back if user tries to swipe away
+        if (isKioskLocked && !temporaryExitAllowed) {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (isKioskLocked && !temporaryExitAllowed && instance != null) {
+                    try {
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                    } catch (Exception ignored) {}
+                }
+            }, 60);
         }
     }
 
@@ -109,12 +138,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         instance = this;
 
-        // Keep screen alive & handle full display
+        // Configure Window to take over screen lock & keep display alive
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(0xFF008080); // Win98 Teal
             window.setNavigationBarColor(0xFFC0C0C0); // Win98 Gray
+        }
+
+        // Show when device is locked & turn screen on directly
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true);
+            setTurnScreenOn(true);
+        } else {
+            window.addFlags(
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+            );
         }
 
         applyImmersiveSticky();
@@ -234,16 +275,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initSystemReceivers() {
-        // Screen off receiver for reliable lock behavior
-        screenOffReceiver = new BroadcastReceiver() {
+        // Screen & Keyguard receiver for unescapable lock takeover
+        screenReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
+                String action = intent.getAction();
+                if (Intent.ACTION_SCREEN_OFF.equals(action)) {
                     isScreenLocked = true;
+                } else if (Intent.ACTION_SCREEN_ON.equals(action) || Intent.ACTION_USER_PRESENT.equals(action)) {
+                    // Force bring to front immediately upon screen turn-on or keyguard dismiss
+                    if (isKioskLocked && !temporaryExitAllowed) {
+                        try {
+                            Intent bringFront = new Intent(context, MainActivity.class);
+                            bringFront.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            context.startActivity(bringFront);
+                        } catch (Exception ignored) {}
+                        dismissKeyguardIfPossible();
+                    }
                 }
             }
         };
-        registerReceiver(screenOffReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
+        IntentFilter screenFilter = new IntentFilter();
+        screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        screenFilter.addAction(Intent.ACTION_SCREEN_ON);
+        screenFilter.addAction(Intent.ACTION_USER_PRESENT);
+        registerReceiver(screenReceiver, screenFilter);
 
         // Battery status receiver
         batteryReceiver = new BroadcastReceiver() {
@@ -338,6 +394,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         temporaryExitAllowed = false;
         applyImmersiveSticky();
+        dismissKeyguardIfPossible();
         if (webView != null) {
             webView.evaluateJavascript("window.onDeviceResume && window.onDeviceResume();", null);
             if (isScreenLocked) {
@@ -374,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    // Callbacks from BroadcastReceivers with safe JSON escaping
+    // Callbacks from BroadcastReceivers & Services with safe JSON escaping
     public static void notifyIncomingCall(String number) {
         if (instance != null && instance.webView != null) {
             instance.runOnUiThread(() -> {
@@ -402,10 +459,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static void notifyIncomingWhatsApp(String sender, String body) {
+        if (instance != null && instance.webView != null) {
+            instance.runOnUiThread(() -> {
+                String safeSender = JSONObject.quote(sender != null ? sender : "WhatsApp Contact");
+                String safeBody = JSONObject.quote(body != null ? body : "");
+                instance.webView.evaluateJavascript("window.onIncomingWhatsApp && window.onIncomingWhatsApp(" + safeSender + ", " + safeBody + ");", null);
+            });
+        }
+    }
+
     @Override
     protected void onDestroy() {
-        if (screenOffReceiver != null) {
-            try { unregisterReceiver(screenOffReceiver); } catch (Exception ignored) {}
+        if (screenReceiver != null) {
+            try { unregisterReceiver(screenReceiver); } catch (Exception ignored) {}
         }
         if (batteryReceiver != null) {
             try { unregisterReceiver(batteryReceiver); } catch (Exception ignored) {}

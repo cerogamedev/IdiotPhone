@@ -24,7 +24,10 @@ const AppSearch = {
     { name: 'Disk Cleanup', windowId: 'win-cleanmgr', type: 'Application', icon: 'img/cleanmgr.png' },
     { name: 'DirectX Diagnostics', windowId: 'win-dxdiag', type: 'Application', icon: 'img/dxdiag.png' },
     { name: 'Emergency SOS', windowId: 'win-emergency', type: 'Application', icon: 'img/sos.png' },
-    { name: 'Control Panel', windowId: 'win-controlpanel', type: 'Application', icon: 'img/settings.png' }
+    { name: 'Control Panel', windowId: 'win-controlpanel', type: 'Application', icon: 'img/settings.png' },
+    { name: 'Solitaire 98 (Klondike)', windowId: 'win-solitaire', type: 'Game', icon: 'img/solitaire.png' },
+    { name: 'Snake 98 (Nokia Classic)', windowId: 'win-snake', type: 'Game', icon: 'img/snake.png' },
+    { name: 'Brick Breaker 98 (DX-Ball)', windowId: 'win-brickbreaker', type: 'Game', icon: 'img/brickbreaker.png' }
   ],
 
   init() {

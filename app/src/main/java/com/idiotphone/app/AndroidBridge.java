@@ -415,9 +415,21 @@ public class AndroidBridge {
         return array.toString();
     }
 
-    // ==========================================
-    // CONTACTS
-    // ==========================================
+    @JavascriptInterface
+    public boolean hasContactsPermission() {
+        return ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @JavascriptInterface
+    public void requestContactsPermission() {
+        activity.runOnUiThread(() -> {
+            androidx.core.app.ActivityCompat.requestPermissions(
+                    activity,
+                    new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS},
+                    1002
+            );
+        });
+    }
 
     @JavascriptInterface
     public String getContactsJson() {
@@ -435,17 +447,28 @@ public class AndroidBridge {
                             ContactsContract.CommonDataKinds.Phone.NUMBER
                     },
                     null, null,
-                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
+                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " COLLATE NOCASE ASC"
             );
             if (cursor != null) {
+                int idIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
+                int nameIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                int numIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                java.util.HashSet<String> seen = new java.util.HashSet<>();
+
                 while (cursor.moveToNext()) {
+                    String id = idIdx >= 0 ? cursor.getString(idIdx) : "";
+                    String name = nameIdx >= 0 ? cursor.getString(nameIdx) : "Unknown";
+                    String number = numIdx >= 0 ? cursor.getString(numIdx) : "";
+                    if (number == null || number.trim().isEmpty()) continue;
+
+                    String normalized = number.replaceAll("[^0-9+]", "");
+                    if (seen.contains(normalized)) continue;
+                    seen.add(normalized);
+
                     JSONObject item = new JSONObject();
-                    String id = cursor.getString(0);
-                    String name = cursor.getString(1);
-                    String number = cursor.getString(2);
                     item.put("id", id != null ? id : "");
-                    item.put("name", name != null ? name : (number != null ? number : "Unknown"));
-                    item.put("number", number != null ? number : "");
+                    item.put("name", (name != null && !name.trim().isEmpty()) ? name.trim() : number);
+                    item.put("number", number.trim());
                     array.put(item);
                 }
                 cursor.close();
@@ -651,6 +674,50 @@ public class AndroidBridge {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @JavascriptInterface
+    public boolean isNotificationServiceEnabled() {
+        try {
+            String pkgName = activity.getPackageName();
+            final String flat = Settings.Secure.getString(activity.getContentResolver(), "enabled_notification_listeners");
+            if (flat != null && !flat.isEmpty()) {
+                final String[] names = flat.split(":");
+                for (String name : names) {
+                    if (name != null && name.contains(pkgName)) {
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @JavascriptInterface
+    public void openNotificationListenerSettings() {
+        activity.allowTemporaryExit();
+        activity.runOnUiThread(() -> {
+            try {
+                Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public boolean isStrictKioskEnabled() {
+        return prefs.getBoolean("strict_kiosk", true);
+    }
+
+    @JavascriptInterface
+    public void setStrictKioskEnabled(boolean enabled) {
+        prefs.edit().putBoolean("strict_kiosk", enabled).apply();
+        activity.setKioskLocked(enabled);
     }
 
     // ==========================================

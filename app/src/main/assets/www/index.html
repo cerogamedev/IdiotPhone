@@ -99,6 +99,18 @@
         <img src="img/search.png" alt="Find">
         <span>Find 98</span>
       </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-solitaire')">
+        <img src="img/solitaire.png" alt="Solitaire">
+        <span>Solitaire</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-snake')">
+        <img src="img/snake.png" alt="Snake">
+        <span>Snake 98</span>
+      </div>
+      <div class="desktop-icon" onclick="Desktop.openWindow('win-brickbreaker')">
+        <img src="img/brickbreaker.png" alt="Brick Breaker">
+        <span>Brick Breaker</span>
+      </div>
       <div class="desktop-icon" onclick="AppLockScreen.show()">
         <img src="img/lock.png" alt="Lock">
         <span>Lock Phone</span>
@@ -231,6 +243,18 @@
         <img src="img/search.png" alt="Find">
         <span>Find Files or Apps...</span>
       </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-solitaire')">
+        <img src="img/solitaire.png" alt="Solitaire">
+        <span>Solitaire 98</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-snake')">
+        <img src="img/snake.png" alt="Snake">
+        <span>Snake 98 (Nokia Classic)</span>
+      </div>
+      <div class="start-item" onclick="Desktop.openWindow('win-brickbreaker')">
+        <img src="img/brickbreaker.png" alt="Brick Breaker">
+        <span>Brick Breaker 98 (DX-Ball)</span>
+      </div>
       <div class="start-item" onclick="Desktop.openWindow('win-emergency')">
         <img src="img/sos.png" alt="SOS">
         <span style="color:#a00000; font-weight:bold;">Emergency SOS...</span>
@@ -316,7 +340,8 @@
     <div class="window-body">
       <div class="retro-toolbar">
         <input type="search" id="contacts-search-input" placeholder="Search name or digits..." style="flex:1;">
-        <button onclick="AppContacts.showAddModal()">+ New Contact</button>
+        <button onclick="AppContacts.showAddModal()">+ New</button>
+        <button onclick="AppContacts.loadContacts()" title="Refresh from device">↻</button>
       </div>
       <div id="contacts-list" class="retro-list" style="flex:1;"></div>
       <div style="padding:4px 2px; font-size:10px; color:#555;" id="contacts-count">0 Contacts</div>
@@ -379,41 +404,74 @@
     </div>
     <div class="window-body">
       <ul class="tabs">
-        <li id="wa-tab-chat" class="tab active">Retro Chat</li>
+        <li id="wa-tab-chats" class="tab active">Chats & Conversations</li>
+        <li id="wa-tab-compose" class="tab">New Chat</li>
         <li id="wa-tab-web" class="tab">WhatsApp Web</li>
       </ul>
-      <div class="tab-content">
-        <!-- Retro Chat View -->
-        <div id="wa-view-chat" style="flex:1; display:flex; flex-direction:column;">
-          <fieldset>
-            <legend>Compose Message</legend>
-            <div style="margin-bottom:4px;">
-              <label>Select Contact:</label>
-              <select id="wa-contact-select" style="width:100%; margin-top:2px; font-size:11px;"></select>
+      <div class="tab-content" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+        <!-- Chats & Conversations View -->
+        <div id="wa-view-chats" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+          <!-- 1. Master List View (Conversations List) -->
+          <div id="wa-view-chats-list" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+            <div class="retro-toolbar">
+              <input type="search" id="wa-search-input" placeholder="Search conversations or contacts..." style="flex:1;">
+              <button onclick="AppWhatsApp.openComposeTab()">+ Chat</button>
+              <button onclick="AppWhatsApp.checkNotificationSyncStatus()" title="Enable real-time notification sync">🔄 Sync</button>
             </div>
-            <div style="margin-bottom:4px;">
-              <label>Recipient Number:</label>
-              <div style="display:flex; gap:4px; margin-top:2px;">
-                <input type="text" id="wa-recipient-input" placeholder="e.g. +905551234567" style="flex:1;">
-                <button onclick="Desktop.openWindow('win-contacts')" style="min-width:auto; font-size:10px;">Rehber</button>
+            <div id="wa-conversations-list" class="retro-list" style="flex:1; overflow-y:auto;"></div>
+          </div>
+
+          <!-- 2. Detail View (Active Chat Thread) -->
+          <div id="wa-view-chat-thread" style="display:none; flex:1; flex-direction:column; overflow:hidden;">
+            <div class="wa-thread-header">
+              <button onclick="AppWhatsApp.backToChatsList()" style="min-width:auto; padding:2px 8px; font-weight:bold;">◀ Back</button>
+              <div class="wa-avatar" id="wa-thread-avatar">W</div>
+              <div style="flex:1; overflow:hidden;">
+                <div id="wa-thread-name" style="font-weight:bold; font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">User</div>
+                <div id="wa-thread-number" style="font-size:9px; color:#e0f2fe;">+90...</div>
+              </div>
+              <div style="display:flex; gap:4px;">
+                <button onclick="AppWhatsApp.callCurrentContact()" style="min-width:auto; padding:2px 6px; font-size:11px;" title="Call">📞</button>
+                <button onclick="AppWhatsApp.openInOfficialWhatsApp()" style="min-width:auto; padding:2px 6px; font-size:11px; color:#008000;" title="Open in WhatsApp">🟢 App</button>
               </div>
             </div>
-            <div style="margin-bottom:4px;">
-              <label>Message:</label>
-              <textarea id="wa-message-input" rows="3" style="width:100%; margin-top:2px;" placeholder="Write message..."></textarea>
+
+            <!-- Messages Stream -->
+            <div id="wa-messages-box" class="wa-messages-box"></div>
+
+            <!-- Quick Responses Bar -->
+            <div style="padding:4px 6px; background:#dfdfdf; border-top:1px solid #808080;">
+              <div id="wa-thread-quick-replies" style="display:flex; gap:4px; overflow-x:auto; padding-bottom:2px;"></div>
+            </div>
+
+            <!-- Compose & Send Bar -->
+            <div style="padding:6px; background:#c0c0c0; border-top:1px solid #fff; display:flex; gap:4px; align-items:center;">
+              <input type="text" id="wa-thread-input" placeholder="Type a message..." style="flex:1; height:26px; font-size:11px;" onkeypress="if(event.key==='Enter') AppWhatsApp.sendMessage()">
+              <button onclick="AppWhatsApp.sendMessage()" style="font-weight:bold; height:28px; color:#006600; padding:0 12px;">Send</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Chat View -->
+        <div id="wa-view-compose" style="display:none; flex:1; flex-direction:column; padding:6px;">
+          <fieldset>
+            <legend>Start New Chat</legend>
+            <div style="margin-bottom:6px;">
+              <label>Select Contact:</label>
+              <select id="wa-compose-contact-select" style="width:100%; margin-top:2px; font-size:11px;"></select>
             </div>
             <div style="margin-bottom:6px;">
-              <div style="font-size:10px; color:#555; margin-bottom:2px;">Quick Templates:</div>
-              <div id="wa-quick-replies" style="display:flex; gap:4px; flex-wrap:wrap;"></div>
+              <label>Or Enter Phone Number:</label>
+              <input type="text" id="wa-compose-phone-input" placeholder="e.g. +905551234567" style="width:100%; margin-top:2px;">
             </div>
-            <div id="wa-chat-error" style="color:red; font-size:11px; margin-bottom:4px;"></div>
-            <button onclick="AppWhatsApp.sendWhatsAppMessage()" style="font-weight:bold; color:#008000; width:100%;">
-              🟢 Send via WhatsApp
+            <div style="margin-bottom:6px;">
+              <label>Initial Message:</label>
+              <textarea id="wa-compose-msg-input" rows="3" style="width:100%; margin-top:2px;" placeholder="Write message..."></textarea>
+            </div>
+            <div id="wa-compose-error" style="color:red; font-size:11px; margin-bottom:6px;"></div>
+            <button onclick="AppWhatsApp.sendDirectCompose()" style="font-weight:bold; color:#008000; width:100%;">
+              🟢 Start Conversation &amp; Send
             </button>
-          </fieldset>
-          <fieldset style="flex:1; display:flex; flex-direction:column;">
-            <legend>Sent Chats History</legend>
-            <div id="wa-history-list" class="retro-list" style="flex:1;"></div>
           </fieldset>
         </div>
 
@@ -670,9 +728,9 @@
       <fieldset>
         <legend>About</legend>
         <div style="font-size:11px;">
-          <b>IdiotPhone 98</b> for Redmi & Android<br>
-          Minimalist Retro Dumbphone Kiosk Edition<br>
-          Version 1.0.0 (Gold Master)
+          <b>IdiotPhone 98</b> for Android<br>
+          Strict Kiosk Dumbphone Edition<br>
+          Version 1.3.0 (Iron Lockdown &amp; Games Edition)
         </div>
       </fieldset>
     </div>
@@ -1441,6 +1499,123 @@
         <button id="notif-ok-btn">OK</button>
       </div>
     </div>
+  <!-- 26. SOLITAIRE 98 -->
+  <div id="win-solitaire" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/solitaire.png"><span>Solitaire 98</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-solitaire')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-solitaire')">口</button>
+        <button onclick="Desktop.closeWindow('win-solitaire')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="padding:0; display:flex; flex-direction:column; overflow:hidden;">
+      <div class="retro-toolbar" style="margin:0; border-bottom:1px solid #808080;">
+        <button onclick="AppSolitaire.newGame()">♠ New Deal</button>
+        <button onclick="AppSolitaire.drawStock()">🂠 Draw Card</button>
+      </div>
+      <div class="solitaire-board">
+        <div class="solitaire-top-bar">
+          <span id="sol-score">Score: 0</span>
+          <span id="sol-time">Time: 0:00</span>
+        </div>
+        <div class="solitaire-upper">
+          <div style="display:flex; gap:6px;">
+            <div id="sol-stock" class="card-pile" onclick="AppSolitaire.drawStock()"></div>
+            <div id="sol-waste" class="card-pile"></div>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <div id="sol-foundation-0" class="card-pile"></div>
+            <div id="sol-foundation-1" class="card-pile"></div>
+            <div id="sol-foundation-2" class="card-pile"></div>
+            <div id="sol-foundation-3" class="card-pile"></div>
+          </div>
+        </div>
+        <div class="solitaire-tableau">
+          <div id="sol-tableau-0" class="card-pile" style="flex:1;"></div>
+          <div id="sol-tableau-1" class="card-pile" style="flex:1;"></div>
+          <div id="sol-tableau-2" class="card-pile" style="flex:1;"></div>
+          <div id="sol-tableau-3" class="card-pile" style="flex:1;"></div>
+          <div id="sol-tableau-4" class="card-pile" style="flex:1;"></div>
+          <div id="sol-tableau-5" class="card-pile" style="flex:1;"></div>
+          <div id="sol-tableau-6" class="card-pile" style="flex:1;"></div>
+        </div>
+        <div id="solitaire-win-banner" style="display:none; position:absolute; top:35%; left:8%; right:8%; background:#fff; border:2px solid #000; padding:12px; text-align:center; z-index:100; box-shadow:3px 3px 10px rgba(0,0,0,0.5);">
+          <b style="font-size:14px; color:#008000;">🎉 SOLITAIRE SOLVED! 🎉</b>
+          <p style="font-size:11px; margin:6px 0 10px 0;">All cards placed in foundation piles!</p>
+          <button onclick="AppSolitaire.newGame(); document.getElementById('solitaire-win-banner').style.display='none';" style="font-weight:bold;">Deal Another Game</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 27. SNAKE 98 -->
+  <div id="win-snake" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/snake.png"><span>Snake 98 - Nokia Classic</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-snake')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-snake')">口</button>
+        <button onclick="Desktop.closeWindow('win-snake')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="display:flex; flex-direction:column; align-items:center; padding:6px; overflow:hidden;">
+      <div style="display:flex; justify-content:space-between; width:100%; max-width:280px; font-weight:bold; font-size:11px; margin-bottom:4px;">
+        <span id="snake-score">Score: 0</span>
+        <span id="snake-high">High: 0</span>
+      </div>
+      <div class="snake-screen" style="position:relative;">
+        <canvas id="snake-canvas" width="280" height="280"></canvas>
+        <div id="snake-gameover" style="display:none; position:absolute; inset:0; background:rgba(30,50,20,0.88); color:#9bc088; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:12px;">
+          <b style="font-size:18px; margin-bottom:6px;">GAME OVER</b>
+          <div id="snake-final-score" style="font-size:12px; margin-bottom:12px;">Score: 0</div>
+          <button onclick="AppSnake.resetGame()" style="font-weight:bold; height:30px; padding:0 16px;">Play Again</button>
+        </div>
+      </div>
+      <!-- Retro D-Pad -->
+      <div class="snake-dpad">
+        <div></div>
+        <button onclick="AppSnake.changeDir(0, -1)">▲</button>
+        <div></div>
+        <button onclick="AppSnake.changeDir(-1, 0)">◀</button>
+        <button onclick="AppSnake.resetGame()" style="font-size:11px;">↻</button>
+        <button onclick="AppSnake.changeDir(1, 0)">▶</button>
+        <div></div>
+        <button onclick="AppSnake.changeDir(0, 1)">▼</button>
+        <div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 28. BRICK BREAKER 98 -->
+  <div id="win-brickbreaker" class="window" style="display:none;">
+    <div class="title-bar">
+      <div class="title-bar-text"><img src="img/brickbreaker.png"><span>Brick Breaker 98 - DX-Ball</span></div>
+      <div class="title-bar-controls">
+        <button onclick="Desktop.minimizeWindow('win-brickbreaker')">_</button>
+        <button onclick="Desktop.toggleMaximize('win-brickbreaker')">口</button>
+        <button onclick="Desktop.closeWindow('win-brickbreaker')">✕</button>
+      </div>
+    </div>
+    <div class="window-body" style="display:flex; flex-direction:column; align-items:center; padding:6px; overflow:hidden;">
+      <div style="display:flex; justify-content:space-between; width:100%; max-width:280px; font-weight:bold; font-size:11px; margin-bottom:4px;">
+        <span id="bb-score">Score: 0</span>
+        <span id="bb-stage">Stage: 1</span>
+        <span id="bb-lives">Lives: ❤️❤️❤️</span>
+      </div>
+      <div class="bb-canvas-container" style="position:relative;">
+        <canvas id="bb-canvas" width="280" height="320"></canvas>
+        <div id="bb-gameover" style="display:none; position:absolute; inset:0; background:rgba(10,10,25,0.92); color:#fff; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:12px;">
+          <b style="font-size:18px; color:#ff4444; margin-bottom:6px;">GAME OVER</b>
+          <div id="bb-final-score" style="font-size:12px; margin-bottom:12px;">Score: 0</div>
+          <button onclick="AppBrickBreaker.resetGame()" style="font-weight:bold; height:30px; padding:0 16px;">Play Again</button>
+        </div>
+      </div>
+      <div style="display:flex; gap:16px; margin-top:8px; width:100%; max-width:280px; justify-content:center;">
+        <button onclick="AppBrickBreaker.movePaddle('left')" style="flex:1; height:36px; font-size:16px; font-weight:bold;">◀ Left</button>
+        <button onclick="AppBrickBreaker.movePaddle('right')" style="flex:1; height:36px; font-size:16px; font-weight:bold;">Right ▶</button>
+      </div>
+    </div>
   </div>
 
   <!-- ========================================== -->
@@ -1561,5 +1736,10 @@
   <script src="js/app-stickynote.js"></script>
   <script src="js/app-habits.js"></script>
   <script src="js/app-search.js"></script>
+
+  <!-- 3 New Games (Total 28 Modules) -->
+  <script src="js/app-solitaire.js"></script>
+  <script src="js/app-snake.js"></script>
+  <script src="js/app-brickbreaker.js"></script>
 </body>
 </html>
